@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a79b01ea5641d4aa6daa2e23605641, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -35,17 +35,17 @@ MonoBehaviour:
     overrideState: 1
     value: 0
   color:
-    overrideState: 0
+    overrideState: 1
     value: {r: 1, g: 1, b: 1, a: 1}
   fastMode:
-    overrideState: 0
+    overrideState: 1
     value: 0
   dirtTexture:
-    overrideState: 0
+    overrideState: 1
     value: {fileID: 0}
     defaultState: 1
   dirtIntensity:
-    overrideState: 0
+    overrideState: 1
     value: 0
 --- !u!114 &-2493154341205742820
 MonoBehaviour:
@@ -74,7 +74,7 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.4
+    value: 0.25
   smoothness:
     overrideState: 0
     value: 0.2
@@ -116,7 +116,7 @@ MonoBehaviour:
     defaultState: 1
   tonemapper:
     overrideState: 1
-    value: 2
+    value: 1
   toneCurveToeStrength:
     overrideState: 0
     value: 0
@@ -143,8 +143,8 @@ MonoBehaviour:
     overrideState: 0
     value: 1
   temperature:
-    overrideState: 1
-    value: 0
+    overrideState: 0
+    value: 50
   tint:
     overrideState: 1
     value: 0
