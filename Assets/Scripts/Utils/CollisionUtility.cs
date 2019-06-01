@@ -25,6 +25,10 @@ public class CollisionUtility : MonoBehaviour {
             this.c = c;
             this.d = d;
         }
+
+        public bool isInside(Vector2 p) {
+            return p.x >= a.x && p.x >= a.x && p.x < c.x && p.y < c.y;
+        }
     }
 
     public static bool LineLine(Line a, Line b) {
@@ -53,15 +57,23 @@ public class CollisionUtility : MonoBehaviour {
         bool top = LineLine(a, new Line(r.b, r.c));
         bool right = LineLine(a, new Line(r.c, r.d));
         bool bottom = LineLine(a, new Line(r.d, r.a));
+        bool sinside = r.isInside(a.start);
+        bool einside = r.isInside(a.end);
 
-        return left || top || right || bottom;
+        return left || top || right || bottom || sinside || einside;
     }
 
     public static List<Vector2> LineIntersectsRect(Line a, Rectangle r) {
         Vector2 inter;
         List<Vector2> intersections = new List<Vector2>();
 
-        if(LineLine(a, new Line(r.a, r.b), out inter)) {
+        if (r.isInside(a.start)) {
+            intersections.Add(a.start);
+        }
+        if (r.isInside(a.end)) {
+            intersections.Add(a.end);
+        }
+        if (LineLine(a, new Line(r.a, r.b), out inter)) {
             intersections.Add(inter);
         }
         if(LineLine(a, new Line(r.b, r.c), out inter)){

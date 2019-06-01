@@ -11,7 +11,7 @@ public class LineInterTest : MonoBehaviour {
     private void Update() {
         var wmpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         lr1.SetPosition(1, wmpos);
-        RectCollisionCheck2();
+        RectCollisionCheck();
     }
 
     private void LineCollisionCheck() {

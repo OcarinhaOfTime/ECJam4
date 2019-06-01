@@ -38,6 +38,7 @@ public class MagicSphere : MonoBehaviour {
         speed += Random.value * .5f;
         dir = Quaternion.Euler(0, 0, Random.value * 360) * Vector2.right;
         vel = dir * speed;
+        moving = true;
     }
 
     private void Update() {

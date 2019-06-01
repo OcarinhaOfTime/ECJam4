@@ -54,10 +54,12 @@ public class SphereAttackManager : MonoBehaviour {
 
     public void ActivateAttack(BoxCollider2D target, System.Action onAtk) {
         this.target = target;
+        spheresParent.position = target.transform.position;
         onAttack.RemoveAllListeners();
         onAttack.AddListener(() => onAtk());
 
         for (int i = 0; i < magicSpheres.Count; i++) {
+            magicSpheres[i].Setup();
             magicSpheres[i].gameObject.SetActive(true);
         }
 
