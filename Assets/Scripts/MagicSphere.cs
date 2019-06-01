@@ -32,13 +32,10 @@ public class MagicSphere : MonoBehaviour {
         }
     }
 
-    private void Awake() {
+    public void Setup() {
         col = GetComponent<CircleCollider2D>();
         sr = GetComponent<SpriteRenderer>();
         speed += Random.value * .5f;
-    }
-
-    private void Start() {
         dir = Quaternion.Euler(0, 0, Random.value * 360) * Vector2.right;
         vel = dir * speed;
     }
