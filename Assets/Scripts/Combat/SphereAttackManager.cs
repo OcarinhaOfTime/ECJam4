@@ -7,141 +7,87 @@ using VUtils;
 
 public class SphereAttackManager : MonoBehaviour {
 
-    public Color[] sphereColors = { Color.red, Color.blue, Color.yellow };
-    public MagicSphere spherePrefab;
-    public Transform spheresParent;
+    public Color[] attackSpheresColors = { Color.red, Color.blue, Color.yellow, Color.red, Color.blue, Color.yellow };
+    public Color[] defenceSpheresColors = { Color.gray, Color.gray, Color.gray };
 
-    public int spheres = 6;
-    public float spheresRadius = 1;
+    public SpheresManager attackSpheres;
+    public SpheresManager defenceSpheres;
+    public EnemyAttack enemyAttack;
 
-    private List<MagicSphere> magicSpheres = new List<MagicSphere>();
-    public PointerHandler pointerHandler;
-    public CustomLine customLine;
-    private Camera cam;
-    private List<int> selectedPoints = new List<int>();
-    private BoxCollider2D target;
     public bool attacking;
     public UnityEvent onAttack = new UnityEvent();
 
-    private Vector2 wmpos {
-        get {
-            return cam.ScreenToWorldPoint(Input.mousePosition);
-        }
-    }
-    private float rand {
-        get {
-            return Random.value * 2 - 1;
-        }
-    }
+    CharacterHolder player;
+    CharacterHolder enemy;
 
-    private void Start() {
-        cam = Camera.main;
+    public bool defenceConnected = false;
+    public CollisionUtility.Line defenceLine;
+    public CollisionUtility.Line enemyLine;
 
-        for (int i = 0; i < spheres; i++) {
-            var sphere = Instantiate(spherePrefab);
-            sphere.Setup();
-            sphere.color = sphereColors[i % sphereColors.Length];
-            sphere.transform.SetParent(spheresParent);
+    public void Setup(CharacterHolder player, CharacterHolder enemy) {
+        this.player = player;
+        this.enemy = enemy;
 
-            sphere.transform.localPosition = new Vector2(rand * 2.5f, rand * 2.5f);
-            sphere.name = "sphere" + i;
+        attackSpheres.Create(attackSpheresColors);
+        defenceSpheres.Create(defenceSpheresColors);
+        enemyAttack.Clear();
 
-            magicSpheres.Add(sphere);
-        }
+        attackSpheres.onLineConnect.AddListener(Attack);
+        attackSpheres.onConnectFail.AddListener(AttackFail);
 
-        pointerHandler.onPointerDown.AddListener(OnPointerDown);
+        defenceSpheres.onLineConnect.AddListener(Defend);
+        defenceSpheres.onConnectFail.AddListener(DefendFail);
     }
 
-    public void ActivateAttack(BoxCollider2D target, System.Action onAtk) {
-        this.target = target;
-        spheresParent.position = target.transform.position;
+    public void ActivateAttack(System.Action onEnd) {
+        attackSpheres.SetAllActive(true);
         onAttack.RemoveAllListeners();
-        onAttack.AddListener(() => onAtk());
-
-        for (int i = 0; i < magicSpheres.Count; i++) {
-            magicSpheres[i].Setup();
-            magicSpheres[i].gameObject.SetActive(true);
-        }
+        onAttack.AddListener(() => onEnd());
 
         attacking = true;
     }
 
     public void StopAttack() {
-        for (int i = 0; i < magicSpheres.Count; i++) {
-            magicSpheres[i].gameObject.SetActive(false);
-        }
+        attackSpheres.SetAllActive(false);
 
         attacking = false;
     }
 
-    public void OnPointerDown(PointerEventData eventData) {
-        if (!attacking)
-            return;
-        print("pointer down??");
-        var p = wmpos;
-        for (int i = 0; i < magicSpheres.Count; i++) {
-            if (magicSpheres[i].col.OverlapPoint(p)) {
-                SelectSphere(i);
-                print("overlapssss " + magicSpheres[i].name);
-                break;
-            }
-        }
+    public void ActivateDefense(System.Action onEnd) {
+        defenceConnected = false;
+        defenceSpheres.SetAllActive(true);
+
+        enemyAttack.ActivateRandomAttack((l) => OnEnemyAttackEnd(l, onEnd));
     }
 
-    private void SelectSphere(int i) {
-        if (selectedPoints.Contains(i)) {
-            print("Contains!!!");
-            magicSpheres[i].moving = true;
-            selectedPoints.Remove(i);
-        } else if (selectedPoints.Count == 0) {
-            selectedPoints.Add(i);
-            magicSpheres[i].moving = false;
-        } else {
-            selectedPoints.Add(i);
-            magicSpheres[i].moving = false;
-            if (magicSpheres[i].color == magicSpheres[selectedPoints[0]].color) {
-                print("Attack!!");
-                Attack();
-            } else {
-                print("Miss!!");
-                Miss();
-            }
-        }
+    private void OnEnemyAttackEnd(CollisionUtility.Line line, System.Action onEnd) {
+        enemyLine = line;
+        onEnd();
     }
 
-    private void Attack() {
-        var i1 = selectedPoints[0];
-        var i2 = selectedPoints[1];
-        customLine.SetPositions(magicSpheres[i1].transform.position, magicSpheres[i2].transform.position);
-        customLine.color = magicSpheres[i1].color;
-        customLine.width = .25f;
+    public void StopDefense() {
+        defenceSpheres.SetAllActive(false);
+    }
 
-        var rect = CollisionUtility.Collider2Rect(target);
-        var line = new CollisionUtility.Line(magicSpheres[i1].transform.position, magicSpheres[i2].transform.position);
-
-        if (CollisionUtility.LineIntersectsRectTest(line, rect)) {
+    private void Attack(CollisionUtility.Line line) {
+        if (CollisionUtility.LineIntersectsRectTest(line, enemy.col)) {
             print("hit");
             onAttack.Invoke();
         } else {
-            print("Miss, mf");
+            print("missed");
         }
-
-        this.ExecAfterSecs(1, () => {
-            magicSpheres[i1].gameObject.SetActive(false);
-            magicSpheres[i2].gameObject.SetActive(false);
-            customLine.width = 0f;
-            selectedPoints.Clear();
-        });
     }
 
-    private void Miss() {
-        this.ExecAfterSecs(1, () => {
-            var i1 = selectedPoints[0];
-            var i2 = selectedPoints[1];
-            magicSpheres[i1].gameObject.SetActive(false);
-            magicSpheres[i2].gameObject.SetActive(false);
-            selectedPoints.Clear();
-        });
+    private void AttackFail() {
+        print("failed");
+    }
 
+    private void Defend(CollisionUtility.Line line) {
+        defenceConnected = true;
+        defenceLine = line;
+    }
+
+    private void DefendFail() {
+        print("failed");
     }
 }

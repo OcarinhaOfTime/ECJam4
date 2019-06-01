@@ -5,11 +5,17 @@ public class CombatManager : MonoBehaviour {
     public enum CombatManagerState {
         Idle,
         PlayerAttack,
-        EnemyAttack
+        EnemyAttack,
+        BattleOver
     }
 
-    public Character player;
-    public Character enemy;
+    private Character player;
+    private Character enemy;
+
+    public CharacterHolder playerHolder;
+    public CharacterHolder enemyHolder;
+
+    public GameObject buttons;
 
     public ScaleButton attack;
     public ScaleButton itens;
@@ -18,9 +24,12 @@ public class CombatManager : MonoBehaviour {
     private SphereAttackManager sphereAttackManager;
     public float attackDuration = 5;
     public CombatManagerState state = CombatManagerState.Idle;
+    public HUD hud;
 
     private float timer = 0;
     private string _status;
+    private GameObject root;
+
     public float timeLefetNorm {
         get {
             return  1 - Mathf.Clamp01(timer / attackDuration);
@@ -38,11 +47,31 @@ public class CombatManager : MonoBehaviour {
     }
 
     public UnityEvent onStatusChange;
+    public UnityEvent onCombatEnd;
+    public UnityEvent onSetup;
 
     private void Start() {
         status = "idle";
+        root = transform.GetChild(0).gameObject;
         sphereAttackManager = GetComponent<SphereAttackManager>();
         attack.onClick.AddListener(() => SetState(CombatManagerState.PlayerAttack));
+    }
+
+    public void Setup(Character player, Character enemy) {
+        this.player = player;
+        this.enemy = enemy;
+        playerHolder.Setup(player.data);
+        enemyHolder.Setup(enemy.data);
+        buttons.SetActive(true);
+
+        sphereAttackManager.Setup(playerHolder, enemyHolder);
+
+        root.SetActive(true);
+        hud.Setup(player, enemy);
+    }
+
+    public void Stop() {
+        root.SetActive(false);
     }
 
     private void Update() {
@@ -56,35 +85,73 @@ public class CombatManager : MonoBehaviour {
         }
     }
 
-    public void SetState(CombatManagerState state) {
+    private void SetState(CombatManagerState state) {
         this.state = state;
         switch (state) {
             case CombatManagerState.PlayerAttack:
-                sphereAttackManager.ActivateAttack(enemy.boxCollider, OnPlayerAttack);
+                buttons.SetActive(false);
+                sphereAttackManager.ActivateAttack(OnPlayerAttack);
                 status = "player turn";
                 break;
             case CombatManagerState.EnemyAttack:
-                sphereAttackManager.ActivateAttack(player.boxCollider, OnEnemyAttack);
+                buttons.SetActive(false);
+                sphereAttackManager.ActivateDefense(OnEnemyAttack);
+                break;
+
+            case CombatManagerState.Idle:
+                buttons.SetActive(true);
+                status = "idle";
                 break;
         }
     }
 
     private void OnPlayerAttack() {
         print("on player attack");
-        enemy.TakeDamage(player.atk);
+        enemy.TakeDamage(player.data.strength);
+        status = "player attacked";
+        if(enemy.hp <= 0) {
+            SetState(CombatManagerState.BattleOver);
+            GameManager.instance.EndCombat();
+        }
     }
 
     private void OnEnemyAttack() {
-        player.TakeDamage(enemy.atk);
+        if (!sphereAttackManager.defenceConnected) {
+            player.TakeDamage(enemy.data.strength);
+            player.TakeDamage(enemy.data.strength);
+            if (player.hp <= 0) {
+                GameManager.instance.GameOver();
+            }
+            sphereAttackManager.StopDefense();
+            SetState(CombatManagerState.Idle);
+            return;
+        }
+
+        var def_line = sphereAttackManager.defenceLine;
+        var atk_line = sphereAttackManager.enemyLine;
+
+        if(!CollisionUtility.LineLine(def_line, atk_line)) {
+            player.TakeDamage(enemy.data.strength);
+            if(player.hp <= 0) {
+                GameManager.instance.GameOver();
+            }
+            status = "block missed. player took damage";
+        }
+        else {
+            status = "block block block block";
+        }
+
+        sphereAttackManager.StopDefense();
+        SetState(CombatManagerState.Idle);
     }
 
     private void PlayerAttack() {
         if(timer > attackDuration) {
-            state = CombatManagerState.Idle;
             timer = 0;
             sphereAttackManager.StopAttack();
             print("player turn finished");
-            status = "idle";
+            SetState(CombatManagerState.EnemyAttack);
+            status = "Enemy turn";
             return;
         }
 
@@ -92,11 +159,6 @@ public class CombatManager : MonoBehaviour {
     }
 
     private void EnemyAttack() {
-        if (timer > attackDuration) {
-            state = CombatManagerState.Idle;
-            return;
-        }
-
-        timer += Time.deltaTime;
+        
     }
 }

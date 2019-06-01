@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CollisionUtility : MonoBehaviour {
-    public class Line {
+    [System.Serializable]
+    public struct Line {
         public Vector2 start;
         public Vector2 end;
 
@@ -13,7 +14,8 @@ public class CollisionUtility : MonoBehaviour {
         }
     }
 
-    public class Rectangle {
+    [System.Serializable]
+    public struct Rectangle {
         public Vector2 a;
         public Vector2 b;
         public Vector2 c;
@@ -24,6 +26,15 @@ public class CollisionUtility : MonoBehaviour {
             this.b = b;
             this.c = c;
             this.d = d;
+        }
+
+        public Rectangle(BoxCollider2D col) {
+            Vector2 p = col.transform.position;
+            var size = col.bounds.size * .5f;
+            a = p + new Vector2(-size.x, -size.y);
+            b = p + new Vector2(-size.x, size.y);
+            c = p + new Vector2(size.x, size.y);
+            d = p + new Vector2(size.x, -size.y);
         }
 
         public bool isInside(Vector2 p) {
@@ -50,6 +61,14 @@ public class CollisionUtility : MonoBehaviour {
         intersection.y = a.start.y + (uA * (a.end.y - a.start.y));
 
         return uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1;
+    }
+
+    public static List<Vector2> LineIntersectsRect(Line a, BoxCollider2D r) {
+        return LineIntersectsRect(a, new Rectangle(r));
+    }
+
+    public static bool LineIntersectsRectTest(Line a, BoxCollider2D r) {
+        return LineIntersectsRectTest(a, new Rectangle(r));
     }
 
     public static bool LineIntersectsRectTest(Line a, Rectangle r) {        
