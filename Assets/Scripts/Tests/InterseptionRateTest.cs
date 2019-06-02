@@ -20,7 +20,7 @@ public class InterseptionRateTest : MonoBehaviour {
     private void Update() {
         var wmpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         lr1.SetPosition(1, wmpos);
-        RectCollisionCheck();
+        LineCollisionCheck();
     }
 
     private void RectCollisionCheck() {
@@ -48,6 +48,9 @@ public class InterseptionRateTest : MonoBehaviour {
         }        
     }
 
+    public float lineEvaluationMid;
+    public float lineEvaluationAngle;
+    public float lineEvaluationSize;
     public float lineEvaluation;
 
     public void LineCollisionCheck() {
@@ -59,5 +62,25 @@ public class InterseptionRateTest : MonoBehaviour {
 
         var col = b ? Color.red : Color.white;
         lr1.startColor = lr1.endColor = col;
+
+        if (!b) {
+            lineEvaluationMid = 0;
+            return;
+        }
+
+        var lineLenght = Vector2.Distance(l2.start, l2.end) * .5f;
+        var inter2start = Vector2.Distance(l2.start, inter);
+        var inter2end = Vector2.Distance(l2.end, inter);
+
+        lineEvaluationMid = Mathf.Min(inter2start, inter2end) / lineLenght;
+
+        lineEvaluationAngle = 1 - Mathf.Abs(Vector2.Dot(l1.direction, l2.direction));
+
+        var inter2start0 = Vector2.Distance(l1.start, inter);
+        var inter2end0 = Vector2.Distance(l1.end, inter);
+
+        lineEvaluationSize = Mathf.Clamp01(Mathf.Min(inter2start0, inter2end0) / lineLenght);
+
+        lineEvaluation = (lineEvaluationMid * .4f + lineEvaluationAngle * .4f + lineEvaluationSize * .2f);
     }
 }

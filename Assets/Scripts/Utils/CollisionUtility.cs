@@ -12,6 +12,18 @@ public class CollisionUtility : MonoBehaviour {
             this.start = start;
             this.end = end;
         }
+
+        public Vector2 direction {
+            get {
+                return (end - start).normalized;
+            }
+        }
+
+        public float magnitude {
+            get {
+                return (end - start).magnitude;
+            }
+        }
     }
 
     [System.Serializable]
@@ -39,6 +51,12 @@ public class CollisionUtility : MonoBehaviour {
 
         public bool isInside(Vector2 p) {
             return p.x >= a.x && p.x >= a.x && p.x < c.x && p.y < c.y;
+        }
+
+        public float size {
+            get {
+                return (c - a).magnitude;
+            }
         }
     }
 
