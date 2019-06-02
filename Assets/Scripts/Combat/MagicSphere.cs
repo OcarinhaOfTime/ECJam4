@@ -20,7 +20,17 @@ public class MagicSphere : MonoBehaviour {
     public float speed = 1;
     private float timer;
     public float refreshRate = .25f;
-    public bool moving = true;
+
+    private bool _moving = true;
+    public bool moving {
+        get {
+            return _moving;
+        }
+        set {
+            _moving = value;
+            transform.localScale = _moving ? Vector3.one : Vector3.one * 1.2f;
+        }
+    }
     public CircleCollider2D col { get; private set; }
 
     public Vector2 position {

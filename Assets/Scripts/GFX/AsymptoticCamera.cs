@@ -22,6 +22,25 @@ public class AsymptoticCamera : MonoBehaviour {
 
     public Rect limit = new Rect(-5, -5, 10, 10);
     private Camera cam;
+
+    private Vector3 targPos {
+        get {
+            var targ = target.position;
+            targ.z = transform.position.z;
+
+            return targ + offset;
+        }
+    }
+
+    private Vector3 targPosGround {
+        get {
+            var targ = targPos;
+            targ.y = playerController.lastGroundPos.y;
+            targ.z = transform.position.z;
+
+            return targ + offset;
+        }
+    }
     private void Start() {
         playerController = target.GetComponent<PlayerController>();
         cam = GetComponent<Camera>();
@@ -29,12 +48,11 @@ public class AsymptoticCamera : MonoBehaviour {
 
     [ContextMenu("Jump to target")]
     public void JumpToTarget() {
-        transform.position = new Vector3(target.position.x, target.position.y, transform.position.z);
+        transform.position = targPos;
     }
 
     private void Follow() {
-        var targ = target.position;
-        targ.z = transform.position.z;
+        var targ = targPos;
 
         desiredPos.x = transform.position.x + (targ.x - transform.position.x) * xstiffness * Time.deltaTime;
         desiredPos.y = transform.position.y + (targ.y - transform.position.y) * ystiffness * Time.deltaTime;
@@ -42,8 +60,11 @@ public class AsymptoticCamera : MonoBehaviour {
     }
 
     private void FollowFall() {
-        var targ = target.position;
-        targ.z = transform.position.z;
+        if (playerController.velocity.y >= 0) {
+            cameraMode = CameraMode.FollowGrounded;
+            return;
+        }
+        var targ = targPos;
 
         desiredPos.x = transform.position.x + (targ.x - transform.position.x) * xstiffness * Time.deltaTime;
         desiredPos.y = transform.position.y + (targ.y - transform.position.y) * xstiffness * Time.deltaTime;
@@ -51,9 +72,11 @@ public class AsymptoticCamera : MonoBehaviour {
     }
 
     private void FollowGrounded() {
-        var targ = target.position;
-        targ.y = playerController.lastGroundPos.y;
-        targ.z = transform.position.z;
+        if(playerController.velocity.y < -25) {
+            cameraMode = CameraMode.FollowFall;
+            return;
+        }
+        var targ = targPosGround;
 
         desiredPos.x = transform.position.x + (targ.x - transform.position.x) * xstiffness * Time.deltaTime;
         desiredPos.y = transform.position.y + (targ.y - transform.position.y) * ystiffness * Time.deltaTime;
@@ -73,12 +96,12 @@ public class AsymptoticCamera : MonoBehaviour {
             case CameraMode.FollowFall:
                 FollowFall();
                 break;
-        }        
+        }
 
         desiredPos.y = Mathf.Clamp(desiredPos.y, limit.min.y + cam.orthographicSize, limit.max.y - cam.orthographicSize);
         desiredPos.x = Mathf.Clamp(desiredPos.x, limit.min.x + cam.aspect * cam.orthographicSize, limit.max.x - cam.aspect * cam.orthographicSize);
 
-        transform.position = desiredPos + offset;
+        transform.position = desiredPos;
     }
 
     public Coroutine Focus(float duration, Vector3 point) {

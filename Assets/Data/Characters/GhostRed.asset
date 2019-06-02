@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e9a16b702999e4b87e02a86db7954e, type: 3}
+  m_Name: GhostRed
+  m_EditorClassIdentifier: 
+  characterName: Red Ghost
+  vitality: 25
+  strength: 5
+  intelligence: 3
+  resistence: 3
+  agility: 3
+  skill: 3
+  xp: 20
+  level: 5
+  sprite: {fileID: 21300000, guid: 814c0322dcb51424da824158b0c96b0a, type: 3}
+  animator: {fileID: 9100000, guid: 20327d71b8f2074469ff0c46471e4f6b, type: 2}
+  color: {r: 1, g: 0, b: 0, a: 1}

@@ -8,6 +8,14 @@ public class CharacterHolder : MonoBehaviour {
     public Animator animator;
     [HideInInspector]public CharacterData characterData;
 
+    public float alpha {
+        set {
+            var c = sr.color;
+            c.a = value;
+            sr.color = c;
+        }
+    }
+
     public void Setup(CharacterData characterData) {
         this.characterData = characterData;
         sr.sprite = characterData.sprite;

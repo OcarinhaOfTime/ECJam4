@@ -20,6 +20,15 @@ public class FaderCanvas : MonoBehaviour {
 
     public Image blackPanel;
     public RectTransform gameOverTxt;
+    public Image blinker;
+
+    public float blink {
+        set {
+            var c = blinker.color;
+            c.a = value * .5f;
+            blinker.color = c;
+        }
+    }
 
     private void Start() {
         bannerOriginalSize = banner.sizeDelta;
@@ -34,11 +43,20 @@ public class FaderCanvas : MonoBehaviour {
         bars.color = Color.clear;
     }
 
+    public float bdur = 2;
+    public int bp = 16;
+
+    [ContextMenu("Blink")]
+    public Coroutine Blink() {
+        return this.LerpRoutine(bdur, (t) => blink = Mathf.Cos(t * bp * Mathf.PI + Mathf.PI) * .5f + .5f);
+    }
+
     public Coroutine FadeIn() {
         return this.LerpRoutine(1, CoTween.SmoothStart2, (t) => fader.color = Color.Lerp(Color.clear, Color.black, t));
     }
 
     public Coroutine FadeOut() {
+        fader.material.SetFloat("_Randomness", Random.value * 5 + 1);
         return this.LerpRoutine(1, CoTween.SmoothStop2, (t) => fader.color = Color.Lerp(Color.clear, Color.black, 1-t));
     }
 

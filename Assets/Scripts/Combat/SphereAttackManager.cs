@@ -27,14 +27,7 @@ public class SphereAttackManager : MonoBehaviour {
     public bool attackConnect = false;
     public CollisionUtility.Line attackLine;
 
-    public void Setup(CharacterHolder player, CharacterHolder enemy) {
-        this.player = player;
-        this.enemy = enemy;
-
-        attackSpheres.Create(attackSpheresColors);
-        defenceSpheres.Create(defenceSpheresColors);
-        enemyAttack.Clear();
-
+    private void Start() {
         attackSpheres.onLineConnect.AddListener(Attack);
         attackSpheres.onConnectFail.AddListener(AttackFail);
 
@@ -42,7 +35,17 @@ public class SphereAttackManager : MonoBehaviour {
         defenceSpheres.onConnectFail.AddListener(DefendFail);
     }
 
+    public void Setup(CharacterHolder player, CharacterHolder enemy) {
+        this.player = player;
+        this.enemy = enemy;
+
+        attackSpheres.Create(attackSpheresColors);
+        defenceSpheres.Create(defenceSpheresColors);
+        enemyAttack.Clear();       
+    }
+
     public void ActivateAttack(System.Action onEnd) {
+        print("activating attack");
         attackSpheres.SetAllActive(true);
         onAttack.RemoveAllListeners();
         onAttack.AddListener(() => onEnd());
@@ -51,6 +54,7 @@ public class SphereAttackManager : MonoBehaviour {
     }
 
     public void StopAttack() {
+        onAttack.RemoveAllListeners();
         attackSpheres.SetAllActive(false);
 
         attacking = false;

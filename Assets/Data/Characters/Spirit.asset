@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Duality
   vitality: 10
-  strength: 4
+  strength: 2
   intelligence: 3
   resistence: 3
   agility: 3

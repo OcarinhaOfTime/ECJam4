@@ -74,12 +74,20 @@ public class SpheresManager : MonoBehaviour {
 
     public void OnPointerDown(PointerEventData eventData) {
         var p = wmpos;
+        var min_dist = 666f;
+        var min_index = -1;
         for (int i = 0; i < spheres.Count; i++) {
             if (spheres[i].col.OverlapPoint(p)) {
-                SelectSphere(i);
-                break;
+                var d = Vector2.Distance(p, spheres[i].position);
+                if(d < min_dist) {
+                    min_dist = d;
+                    min_index = i;
+                }
             }
         }
+
+        if(min_index >= 0)
+            SelectSphere(min_index);
     }
 
     private void SelectSphere(int i) {
@@ -128,5 +136,9 @@ public class SpheresManager : MonoBehaviour {
             selectedPoints.Clear();
             onConnectFail.Invoke();
         });
+    }
+
+    public void SetUnselectedActive() {
+
     }
 }

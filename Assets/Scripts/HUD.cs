@@ -16,8 +16,6 @@ public class HUD : MonoBehaviour {
     private Character player;
     private Character enemy;
     public CombatManager combatManager;
-    public GameObject results_panel;
-    public TMP_Text result;
     public Image timeLeftFill;
     private IntersectionEvaluator evaluator;
 
@@ -33,6 +31,7 @@ public class HUD : MonoBehaviour {
     public void Setup(Character player, Character enemy) {
         this.player = player;
         this.enemy = enemy;
+        impact.localScale = modifierTxt.transform.localScale = Vector3.zero;
         UpdateValues();
     }
 
@@ -48,11 +47,6 @@ public class HUD : MonoBehaviour {
         txt.text = c.hp + "/" + c.data.vitality;
     }
 
-    private void ActivateResultPanel(string txt) {
-        results_panel.SetActive(true);
-        result.text = txt;
-    }
-
     public void ShowAttackModifier(int evalIndex, int damage, Vector2 attackPosition) {
         damageTxt.text = "" + damage;
         modifierTxt.text = evaluator.atk_modifierLabels[evalIndex];
@@ -63,7 +57,7 @@ public class HUD : MonoBehaviour {
 
     public void ShowDefenceModifier(int evalIndex, int damage, Vector2 attackPosition) {
         damageTxt.text = "" + damage;
-        modifierTxt.text = evaluator.def_modifierLabels[evalIndex];
+        modifierTxt.text = evaluator.def_modifierLabels[evalIndex] + " block";
         impact.position = attackPosition;
         modifierTxt.transform.position = impact.position + Vector3.up;
         StartCoroutine(ShowModifiers());

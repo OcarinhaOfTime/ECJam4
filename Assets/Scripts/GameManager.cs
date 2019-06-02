@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour {
 
     private IEnumerator StartCombatRoutine(Character enemy) {
         MusicManager.instance.FadeInOutMusic(1);
+        yield return fader.Blink();
         yield return fader.FadeIn();
         cam.enabled = false;
         cam.transform.position = new Vector3(0, 0, cam.transform.position.z);
@@ -64,6 +65,7 @@ public class GameManager : MonoBehaviour {
 
     private IEnumerator EndCombatRoutine() {
         MusicManager.instance.FadeInOutMusic(2);
+        yield return new WaitForSeconds(2);
         yield return fader.FadeIn();
         cam.enabled = true;
         cam.JumpToTarget();

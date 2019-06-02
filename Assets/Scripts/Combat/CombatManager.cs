@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using VUtils;
 
 public class CombatManager : MonoBehaviour {
     public enum CombatManagerState {
         Idle,
         PlayerAttack,
         EnemyAttack,
+        Evaluating,
         BattleOver
     }
 
@@ -66,6 +68,8 @@ public class CombatManager : MonoBehaviour {
         playerHolder.Setup(player.data);
         enemyHolder.Setup(enemy.data);
         buttons.SetActive(true);
+        enemyHolder.animator.enabled = true;
+        enemyHolder.alpha = 1;
 
         sphereAttackManager.Setup(playerHolder, enemyHolder);
 
@@ -124,33 +128,31 @@ public class CombatManager : MonoBehaviour {
         hud.ShowAttackModifier(evalIndex, damage, sphereAttackManager.attackLine.center);
 
         if(enemy.hp <= 0) {
+            sphereAttackManager.StopAttack();
             SetState(CombatManagerState.BattleOver);
+            enemyHolder.animator.enabled = false;
+            this.LerpRoutine(1, CoTween.SmoothStep, (t) => enemyHolder.alpha = 1-t);
             GameManager.instance.EndCombat();
         }
     }
 
     private void OnEnemyAttackEvaluate() {
-        if (!sphereAttackManager.defenceConnected) {
-            player.TakeDamage(enemy.data.strength);
-            player.TakeDamage(enemy.data.strength);
-            if (player.hp <= 0) {
-                GameManager.instance.GameOver();
-            }
-            sphereAttackManager.StopDefense();
-            SetState(CombatManagerState.Idle);
-            return;
+        int evalIndex = 0;
+
+        if (sphereAttackManager.defenceConnected) {
+            var def_line = sphereAttackManager.defenceLine;
+            var atk_line = sphereAttackManager.enemyLine;
+
+            evalIndex = evaluator.EvaluateDefence(def_line, atk_line);
         }
+        
 
-        var def_line = sphereAttackManager.defenceLine;
-        var atk_line = sphereAttackManager.enemyLine;
-
-        int evalIndex = evaluator.EvaluateDefence(def_line, atk_line);
         int damage = Mathf.FloorToInt(enemy.data.strength * evaluator.def_modifiers[evalIndex]);
 
         print(evaluator.def_modifierLabels[evalIndex] + " block " + damage);
 
         player.TakeDamage(damage);
-        hud.ShowAttackModifier(evalIndex, damage, sphereAttackManager.enemyLine.center);
+        hud.ShowDefenceModifier(evalIndex, damage, sphereAttackManager.enemyLine.center);
         if (player.hp <= 0) {
             GameManager.instance.GameOver();
         }
@@ -161,11 +163,14 @@ public class CombatManager : MonoBehaviour {
 
     private void PlayerAttack() {
         if(timer > attackDuration) {
-            timer = 0;
             sphereAttackManager.StopAttack();
             print("player turn finished");
-            SetState(CombatManagerState.EnemyAttack);
+            timer = 0;
             status = "Enemy turn";
+            SetState(CombatManagerState.Evaluating);
+            this.ExecAfterSecs(2, () => {
+                SetState(CombatManagerState.EnemyAttack);
+            });
             return;
         }
 

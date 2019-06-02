@@ -6,6 +6,9 @@ public class Enemy : Character {
 
     private void Start() {
         GetComponent<EventTrigger>().onTriggerEnter.AddListener(OnTriggerEnter);
+        var sr = GetComponent<SpriteRenderer>();
+        sr.color = data.color;
+        sr.sprite = data.sprite;
     }
 
     private void OnTriggerEnter() {

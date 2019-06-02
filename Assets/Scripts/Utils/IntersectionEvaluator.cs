@@ -7,7 +7,7 @@ public class IntersectionEvaluator : MonoBehaviour {
     public float[] atk_modifiers = { 1, 1.1f, 1.2f, 1.3f, 2f };
 
     public string[] def_modifierLabels = { "Missed", "Good", "Great", "Outstanding", "Perfect" };
-    public float[] def_modifiers = { 1, .85f, .75f, .5f, 0f };
+    public float[] def_modifiers = { 1, .8f, .6f, .35f, 0f };
 
     public int EvaluateAttack(CollisionUtility.Line l, CollisionUtility.Rectangle r) {
         var segs = CollisionUtility.LineIntersectsRect(l, r);
@@ -46,12 +46,12 @@ public class IntersectionEvaluator : MonoBehaviour {
 
         var lineEvaluationSize = Mathf.Clamp01(Mathf.Min(inter2start0, inter2end0) / lineLenght);
 
-        var eval = (lineEvaluationMid * .4f + lineEvaluationAngle * .4f + lineEvaluationSize * .2f);
+        var eval = (lineEvaluationMid * .34f + lineEvaluationAngle * .33f + lineEvaluationSize * .33f);
 
-        if(eval >= .9) {
-            return def_modifiers.Length - 1;
-        }
+        //if(eval >= .9) {
+        //    return def_modifiers.Length - 1;
+        //}
 
-        return Mathf.FloorToInt(Mathf.Lerp(0, def_modifiers.Length - 1, eval));
+        return Mathf.FloorToInt(Mathf.Lerp(0, def_modifiers.Length, eval));
     }
 }

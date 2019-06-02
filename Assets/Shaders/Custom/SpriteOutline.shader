@@ -8,7 +8,18 @@ Shader "VShaders/UI/SpriteOutline"
 	}
 	SubShader
 	{
-		Tags { "RenderType"="Transparent" "Queue"="Transparent"}
+		Tags
+        {
+            "Queue"="Transparent"
+            "IgnoreProjector"="True"
+            "RenderType"="Transparent"
+            "PreviewType"="Plane"
+            "CanUseSpriteAtlas"="True"
+        }
+
+        Cull Off
+        Lighting Off
+        ZWrite Off
         Blend SrcAlpha OneMinusSrcAlpha
 
 		Pass
