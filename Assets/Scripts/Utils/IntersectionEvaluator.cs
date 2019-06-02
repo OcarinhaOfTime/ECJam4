@@ -6,21 +6,23 @@ public class IntersectionEvaluator : MonoBehaviour {
     public string[] atk_modifierLabels = { "Regular", "Good", "Great", "Outstanding", "Critical" };
     public float[] atk_modifiers = { 1, 1.1f, 1.2f, 1.3f, 2f };
 
-    public string[] def_modifierLabels = { "Regular", "Good", "Great", "Outstanding", "Perfect" };
+    public string[] def_modifierLabels = { "Missed", "Good", "Great", "Outstanding", "Perfect" };
     public float[] def_modifiers = { 1, .85f, .75f, .5f, 0f };
 
     public int EvaluateAttack(CollisionUtility.Line l, CollisionUtility.Rectangle r) {
         var segs = CollisionUtility.LineIntersectsRect(l, r);
+        if (segs.Count < 2)
+            return 0;
 
         var d = Vector2.Distance(segs[0], segs[1]);
         var s = r.size * .5f;
 
         if (d >= s * 1.5f) {
             return atk_modifiers.Length - 1;
-        } else {
-            var eval = Mathf.Clamp01(d / s) - .01f;
-            return Mathf.FloorToInt(Mathf.Lerp(0, atk_modifiers.Length - 1, eval));
         }
+
+        var eval = Mathf.Clamp01(d / s) - .01f;
+        return Mathf.FloorToInt(Mathf.Lerp(0, atk_modifiers.Length - 1, eval));
     }
 
     public int EvaluateDefence(CollisionUtility.Line l1, CollisionUtility.Line l2) {
@@ -45,6 +47,10 @@ public class IntersectionEvaluator : MonoBehaviour {
         var lineEvaluationSize = Mathf.Clamp01(Mathf.Min(inter2start0, inter2end0) / lineLenght);
 
         var eval = (lineEvaluationMid * .4f + lineEvaluationAngle * .4f + lineEvaluationSize * .2f);
+
+        if(eval >= .9) {
+            return def_modifiers.Length - 1;
+        }
 
         return Mathf.FloorToInt(Mathf.Lerp(0, def_modifiers.Length - 1, eval));
     }

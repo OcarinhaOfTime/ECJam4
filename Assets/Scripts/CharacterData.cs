@@ -15,5 +15,6 @@ public class CharacterData : ScriptableObject {
     public int level = 1;
 
     public Sprite sprite;
+    public RuntimeAnimatorController animator;
     public Color color = Color.white;
 }

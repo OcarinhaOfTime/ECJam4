@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollisionUtility : MonoBehaviour {
+public static class CollisionUtility {
     [System.Serializable]
     public struct Line {
         public Vector2 start;
@@ -134,5 +134,9 @@ public class CollisionUtility : MonoBehaviour {
             p + new Vector2(-size.x, size.y),
             p + new Vector2(size.x, size.y),
             p + new Vector2(size.x, -size.y));
+    }
+
+    public static Rectangle ToRectange(this BoxCollider2D bc2d) {
+        return new Rectangle(bc2d);
     }
 }

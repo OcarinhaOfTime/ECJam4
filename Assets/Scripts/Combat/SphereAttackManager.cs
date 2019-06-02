@@ -24,6 +24,9 @@ public class SphereAttackManager : MonoBehaviour {
     public CollisionUtility.Line defenceLine;
     public CollisionUtility.Line enemyLine;
 
+    public bool attackConnect = false;
+    public CollisionUtility.Line attackLine;
+
     public void Setup(CharacterHolder player, CharacterHolder enemy) {
         this.player = player;
         this.enemy = enemy;
@@ -43,7 +46,7 @@ public class SphereAttackManager : MonoBehaviour {
         attackSpheres.SetAllActive(true);
         onAttack.RemoveAllListeners();
         onAttack.AddListener(() => onEnd());
-
+        attackConnect = false;
         attacking = true;
     }
 
@@ -70,12 +73,10 @@ public class SphereAttackManager : MonoBehaviour {
     }
 
     private void Attack(CollisionUtility.Line line) {
-        if (CollisionUtility.LineIntersectsRectTest(line, enemy.col)) {
-            print("hit");
-            onAttack.Invoke();
-        } else {
-            print("missed");
-        }
+        attackConnect = CollisionUtility.LineIntersectsRectTest(line, enemy.col);
+        attackLine = line;
+
+        onAttack.Invoke();
     }
 
     private void AttackFail() {

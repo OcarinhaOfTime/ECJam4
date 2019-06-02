@@ -29,6 +29,7 @@ public class CombatManager : MonoBehaviour {
     private float timer = 0;
     private string _status;
     private GameObject root;
+    private IntersectionEvaluator evaluator;
 
     public float timeLefetNorm {
         get {
@@ -55,9 +56,11 @@ public class CombatManager : MonoBehaviour {
         root = transform.GetChild(0).gameObject;
         sphereAttackManager = GetComponent<SphereAttackManager>();
         attack.onClick.AddListener(() => SetState(CombatManagerState.PlayerAttack));
+        evaluator = GetComponent<IntersectionEvaluator>();
     }
 
     public void Setup(Character player, Character enemy) {
+        timer = 0;
         this.player = player;
         this.enemy = enemy;
         playerHolder.Setup(player.data);
@@ -90,7 +93,7 @@ public class CombatManager : MonoBehaviour {
         switch (state) {
             case CombatManagerState.PlayerAttack:
                 buttons.SetActive(false);
-                sphereAttackManager.ActivateAttack(OnPlayerAttack);
+                sphereAttackManager.ActivateAttack(OnPlayerAttackEvaluate);
                 status = "player turn";
                 break;
             case CombatManagerState.EnemyAttack:
@@ -105,10 +108,20 @@ public class CombatManager : MonoBehaviour {
         }
     }
 
-    private void OnPlayerAttack() {
-        print("on player attack");
-        enemy.TakeDamage(player.data.strength);
+    private void OnPlayerAttackEvaluate() {
+        if (!sphereAttackManager.attackConnect) {
+            print("ATK MISSED");
+            return;
+        }
+
+        int evalIndex = evaluator.EvaluateAttack(sphereAttackManager.attackLine, enemyHolder.col.ToRectange());
+        int damage = Mathf.CeilToInt(player.data.strength * evaluator.atk_modifiers[evalIndex] + evalIndex);
+
+        print(evaluator.atk_modifierLabels[evalIndex] + " attack " + damage);
+        enemy.TakeDamage(damage);
         status = "player attacked";
+
+
         if(enemy.hp <= 0) {
             SetState(CombatManagerState.BattleOver);
             GameManager.instance.EndCombat();
@@ -130,15 +143,14 @@ public class CombatManager : MonoBehaviour {
         var def_line = sphereAttackManager.defenceLine;
         var atk_line = sphereAttackManager.enemyLine;
 
-        if(!CollisionUtility.LineLine(def_line, atk_line)) {
-            player.TakeDamage(enemy.data.strength);
-            if(player.hp <= 0) {
-                GameManager.instance.GameOver();
-            }
-            status = "block missed. player took damage";
-        }
-        else {
-            status = "block block block block";
+        int evalIndex = evaluator.EvaluateDefence(def_line, atk_line);
+        int damage = Mathf.FloorToInt(enemy.data.strength * evaluator.def_modifiers[evalIndex]);
+
+        print(evaluator.def_modifierLabels[evalIndex] + " block " + damage);
+
+        player.TakeDamage(damage);
+        if (player.hp <= 0) {
+            GameManager.instance.GameOver();
         }
 
         sphereAttackManager.StopDefense();

@@ -22,4 +22,5 @@ MonoBehaviour:
   xp: 10
   level: 99
   sprite: {fileID: 21300000, guid: 3dbee3453fd487f4ba55c448987ccf70, type: 3}
+  animator: {fileID: 9100000, guid: 20327d71b8f2074469ff0c46471e4f6b, type: 2}
   color: {r: 1, g: 1, b: 1, a: 1}
