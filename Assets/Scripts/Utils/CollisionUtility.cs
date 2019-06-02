@@ -19,6 +19,12 @@ public static class CollisionUtility {
             }
         }
 
+        public Vector2 center {
+            get {
+                return (end + start) * .5f;
+            }
+        }
+
         public float magnitude {
             get {
                 return (end - start).magnitude;

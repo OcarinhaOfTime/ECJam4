@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using VUtils;
 
 public class HUD : MonoBehaviour {
     public TMP_Text log;
@@ -19,6 +20,10 @@ public class HUD : MonoBehaviour {
     public TMP_Text result;
     public Image timeLeftFill;
     private IntersectionEvaluator evaluator;
+
+    public RectTransform impact;
+    public TMP_Text damageTxt;
+    public TMP_Text modifierTxt;
 
     private void Start() {
         combatManager.onStatusChange.AddListener(UpdateValues);
@@ -49,11 +54,35 @@ public class HUD : MonoBehaviour {
     }
 
     public void ShowAttackModifier(int evalIndex, int damage, Vector2 attackPosition) {
-
+        damageTxt.text = "" + damage;
+        modifierTxt.text = evaluator.atk_modifierLabels[evalIndex];
+        impact.position = attackPosition;
+        modifierTxt.transform.position = impact.position + Vector3.up * 1.5f;
+        StartCoroutine(ShowModifiers());
     }
 
     public void ShowDefenceModifier(int evalIndex, int damage, Vector2 attackPosition) {
+        damageTxt.text = "" + damage;
+        modifierTxt.text = evaluator.def_modifierLabels[evalIndex];
+        impact.position = attackPosition;
+        modifierTxt.transform.position = impact.position + Vector3.up;
+        StartCoroutine(ShowModifiers());
+    }
 
+    private IEnumerator ShowModifiers() {
+        yield return this.LerpRoutine(.1f, CoTween.SmoothStep, (t) => {
+            impact.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, t);
+        });
+
+        yield return this.LerpRoutine(.1f, CoTween.SmoothStep, (t) => {
+            modifierTxt.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, t);
+        });
+
+        yield return new WaitForSeconds(1);
+
+        yield return this.LerpRoutine(.1f, CoTween.SmoothStep, (t) => {
+            impact.localScale = modifierTxt.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, 1-t);
+        });
     }
 
     private void Update() {

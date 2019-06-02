@@ -98,7 +98,7 @@ public class CombatManager : MonoBehaviour {
                 break;
             case CombatManagerState.EnemyAttack:
                 buttons.SetActive(false);
-                sphereAttackManager.ActivateDefense(OnEnemyAttack);
+                sphereAttackManager.ActivateDefense(OnEnemyAttackEvaluate);
                 break;
 
             case CombatManagerState.Idle:
@@ -121,6 +121,7 @@ public class CombatManager : MonoBehaviour {
         enemy.TakeDamage(damage);
         status = "player attacked";
 
+        hud.ShowAttackModifier(evalIndex, damage, sphereAttackManager.attackLine.center);
 
         if(enemy.hp <= 0) {
             SetState(CombatManagerState.BattleOver);
@@ -128,7 +129,7 @@ public class CombatManager : MonoBehaviour {
         }
     }
 
-    private void OnEnemyAttack() {
+    private void OnEnemyAttackEvaluate() {
         if (!sphereAttackManager.defenceConnected) {
             player.TakeDamage(enemy.data.strength);
             player.TakeDamage(enemy.data.strength);
@@ -149,6 +150,7 @@ public class CombatManager : MonoBehaviour {
         print(evaluator.def_modifierLabels[evalIndex] + " block " + damage);
 
         player.TakeDamage(damage);
+        hud.ShowAttackModifier(evalIndex, damage, sphereAttackManager.enemyLine.center);
         if (player.hp <= 0) {
             GameManager.instance.GameOver();
         }
