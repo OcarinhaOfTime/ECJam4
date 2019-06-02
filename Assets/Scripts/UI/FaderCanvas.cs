@@ -18,7 +18,7 @@ public class FaderCanvas : MonoBehaviour {
 
     private Color barsColor;
 
-    public Image gameOverPanel;
+    public Image blackPanel;
     public RectTransform gameOverTxt;
 
     private void Start() {
@@ -41,10 +41,20 @@ public class FaderCanvas : MonoBehaviour {
         return this.LerpRoutine(1, CoTween.SmoothStop2, (t) => fader.color = Color.Lerp(Color.clear, Color.black, 1-t));
     }
 
+    public Coroutine FadeBlackIn() {
+        return this.LerpRoutine(1, CoTween.SmoothStart2, (t) => blackPanel.color = Color.Lerp(Color.clear, Color.black, t));
+    }
 
-    [ContextMenu("Banner Fade")]
-    public Coroutine BannerFade() {
+    public Coroutine FadeBlackOut() {
+        return this.LerpRoutine(1, CoTween.SmoothStop2, (t) => blackPanel.color = Color.Lerp(Color.clear, Color.black, 1 - t));
+    }
+
+
+    public Coroutine BannerFadeIn() {
         return StartCoroutine(BannerAnimation());
+    }
+    public void BannerFadeOut() {
+        banner.sizeDelta = bannerOffSize;
     }
 
     public IEnumerator BannerAnimation() {
@@ -56,8 +66,7 @@ public class FaderCanvas : MonoBehaviour {
         });
 
         yield return new WaitForSeconds(1);
-        yield return this.LerpRoutine(.5f, CoTween.SmoothStart2, (t) => portrait.rectTransform.anchoredPosition = Vector2.Lerp(portraitOriginalPos, portraitOriginalPos + Vector2.right * 500, t));
-        this.LerpRoutine(.1f, CoTween.SmoothStep, (t) => banner.sizeDelta = Vector2.Lerp(bannerOffSize, bannerOriginalSize, 1-t));
+        //yield return this.LerpRoutine(.5f, CoTween.SmoothStart2, (t) => portrait.rectTransform.anchoredPosition = Vector2.Lerp(portraitOriginalPos, portraitOriginalPos + Vector2.right * 500, t));
     }
 
     public Coroutine GameOverFade() {
@@ -65,7 +74,7 @@ public class FaderCanvas : MonoBehaviour {
     }
 
     public IEnumerator GameOverFadeRoutine() {
-        yield return this.LerpRoutine(1f, CoTween.SmoothStep, (t) => gameOverPanel.color = Color.Lerp(Color.clear, Color.black, t));
+        yield return this.LerpRoutine(1f, CoTween.SmoothStep, (t) => blackPanel.color = Color.Lerp(Color.clear, Color.black, t));
         yield return this.LerpRoutine(1f, CoTween.SmoothStep, (t) => gameOverTxt.localScale = Vector2.Lerp(Vector2.zero, Vector2.one, t));
     }
 }

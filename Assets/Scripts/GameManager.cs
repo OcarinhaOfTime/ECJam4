@@ -47,14 +47,15 @@ public class GameManager : MonoBehaviour {
 
     private IEnumerator StartBossCombatRoutine(Character enemy) {
         MusicManager.instance.Play2PartSong(0);
-        yield return fader.BannerFade();
-        yield return fader.FadeIn();
+        yield return fader.BannerFadeIn();
+        yield return fader.FadeBlackIn();
+        fader.BannerFadeOut();
         cam.enabled = false;
         cam.transform.position = new Vector3(0, 0, cam.transform.position.z);
         mainScene.SetActive(false);
         combatManager.Setup(playerCharacter, enemy);
         yield return new WaitForSeconds(.33f);
-        yield return fader.FadeOut();
+        yield return fader.FadeBlackOut();
     }
 
     public void EndCombat() {
