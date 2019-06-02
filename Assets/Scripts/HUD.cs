@@ -18,9 +18,11 @@ public class HUD : MonoBehaviour {
     public GameObject results_panel;
     public TMP_Text result;
     public Image timeLeftFill;
+    private IntersectionEvaluator evaluator;
 
     private void Start() {
         combatManager.onStatusChange.AddListener(UpdateValues);
+        evaluator = combatManager.GetComponent<IntersectionEvaluator>();
     }
 
     public void Setup(Character player, Character enemy) {
@@ -44,6 +46,14 @@ public class HUD : MonoBehaviour {
     private void ActivateResultPanel(string txt) {
         results_panel.SetActive(true);
         result.text = txt;
+    }
+
+    public void ShowAttackModifier(int evalIndex, int damage, Vector2 attackPosition) {
+
+    }
+
+    public void ShowDefenceModifier(int evalIndex, int damage, Vector2 attackPosition) {
+
     }
 
     private void Update() {

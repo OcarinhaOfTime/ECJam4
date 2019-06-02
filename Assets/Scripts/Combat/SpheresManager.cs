@@ -47,6 +47,7 @@ public class SpheresManager : MonoBehaviour {
             sphere.transform.SetParent(transform);
 
             sphere.transform.localPosition = new Vector2(rand * radius, rand * radius);
+            sphere.transform.rotation = Quaternion.Euler(0, 0, Random.value * 360);
             sphere.name = "sphere" + i;
 
             spheres.Add(sphere);
