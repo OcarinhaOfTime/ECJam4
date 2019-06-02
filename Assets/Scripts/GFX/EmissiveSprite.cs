@@ -15,8 +15,10 @@ public class EmissiveSprite : MonoBehaviour {
     }
 
     private void UpdateMaterial() {
+        var sr = GetComponent<SpriteRenderer>();
         var mpb = new MaterialPropertyBlock();
+        sr.GetPropertyBlock(mpb);
         mpb.SetFloat("_Emission", emission);
-        GetComponent<SpriteRenderer>().SetPropertyBlock(mpb);
+        sr.SetPropertyBlock(mpb);
     }
 }

@@ -8,7 +8,7 @@ public class FaderCanvas : MonoBehaviour {
     public Image fader;
 
     public RectTransform banner;
-    public Image portrait;
+    public CanvasGroup portrait;
     public RawImage bars;
     private Vector2 bannerOriginalSize;
     private Vector2 bannerOffSize;
@@ -23,12 +23,13 @@ public class FaderCanvas : MonoBehaviour {
 
     private void Start() {
         bannerOriginalSize = banner.sizeDelta;
+        bannerOriginalSize.y = 300;
         bannerOffSize = new Vector2(bannerOriginalSize.x, 0);
-        portraitOriginalPos = portrait.rectTransform.anchoredPosition;
-        portraitOffPos = portrait.rectTransform.anchoredPosition - Vector2.right * 500;
+        portraitOriginalPos = portrait.GetComponent<RectTransform>().anchoredPosition;
+        portraitOffPos = portrait.GetComponent<RectTransform>().anchoredPosition - Vector2.right * 500;
 
         banner.sizeDelta = bannerOffSize;
-        portrait.color = Color.clear;
+        portrait.alpha = 0;
         barsColor = bars.color;
         bars.color = Color.clear;
     }
@@ -61,8 +62,8 @@ public class FaderCanvas : MonoBehaviour {
         yield return this.LerpRoutine(.25f, CoTween.SmoothStep, (t) => banner.sizeDelta = Vector2.Lerp(bannerOffSize, bannerOriginalSize, t));
         yield return this.LerpRoutine(1, CoTween.SmoothStop3, (t) => {
             bars.color = Color.Lerp(Color.clear, barsColor, t);
-            portrait.rectTransform.anchoredPosition = Vector2.Lerp(portraitOffPos, portraitOriginalPos, t);
-            portrait.color = Color.Lerp(Color.clear, Color.white, t * 2);
+            portrait.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(portraitOffPos, portraitOriginalPos, t);
+            portrait.alpha = t * 2;
         });
 
         yield return new WaitForSeconds(1);
