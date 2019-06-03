@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : Character {
-
     private void Start() {
         GetComponent<EventTrigger>().onTriggerEnter.AddListener(OnTriggerEnter);
         var sr = GetComponent<SpriteRenderer>();

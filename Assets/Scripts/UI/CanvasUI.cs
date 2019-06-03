@@ -25,6 +25,7 @@ public class CanvasUI : MonoBehaviour {
         leftButton.onClick.AddListener(() => menuUI.ChangeMenu(-1));
         rightButton.onClick.AddListener(() => menuUI.ChangeMenu(1));
         canvas = transform.GetChild(0).gameObject;
+        canvas.SetActive(false);
     }
 
     private void Start() {

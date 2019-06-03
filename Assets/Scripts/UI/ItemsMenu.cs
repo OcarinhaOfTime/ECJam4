@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ItemsMenu : MonoBehaviour {
     public UsableItem prefab;
-    public InventoryManager inventoryManager;
+    private InventoryManager inventoryManager;
     public TMP_Text description;
     public RectTransform content;
     public RectTransform empty;
     public Character character;
 
     private List<UsableItem> items = new List<UsableItem>();
+    public UnityEvent onItemUsed;
 
     private void Start() {
         inventoryManager = DataManager.instance.inventoryManager;
@@ -47,6 +49,7 @@ public class ItemsMenu : MonoBehaviour {
         PopupCanvas.instance.ShowOptionPopup("Use " + inventoryManager.items[itemID] + "?", () => {
             inventoryManager.UseItem(character, itemID);
             OnAppear();
+            onItemUsed.Invoke();
         }, () => { });
     }
 

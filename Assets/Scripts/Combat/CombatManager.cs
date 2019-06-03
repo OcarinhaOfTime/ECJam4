@@ -20,13 +20,15 @@ public class CombatManager : MonoBehaviour {
     public GameObject buttons;
 
     public ScaleButton attack;
-    public ScaleButton itens;
+    public ScaleButton items;
     public ScaleButton block;
 
     private SphereAttackManager sphereAttackManager;
     public CombatManagerState state = CombatManagerState.Idle;
     public HUD hud;
     public VictoryScreen victoryScreen;
+    public CanvasUI itemsUI;
+    public PointerClickHandler itemsUIClickHandler;
 
     private string _status;
     private GameObject root;
@@ -60,7 +62,16 @@ public class CombatManager : MonoBehaviour {
         root = transform.GetChild(0).gameObject;
         sphereAttackManager = GetComponent<SphereAttackManager>();
         attack.onClick.AddListener(() => SetState(CombatManagerState.PlayerAttack));
+        items.onClick.AddListener(itemsUI.Appear);
+        itemsUIClickHandler.onClick.AddListener(itemsUI.Hide);
         evaluator = GetComponent<IntersectionEvaluator>();
+        itemsUI.GetComponent<ItemsMenu>().onItemUsed.AddListener(OnItemUsed);
+    }
+
+    private void OnItemUsed() {
+        status = "used item";
+        itemsUI.Hide();
+        SetState(CombatManagerState.EnemyAttack);
     }
 
     public void Setup(Character player, Character enemy) {
