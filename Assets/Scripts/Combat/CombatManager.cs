@@ -26,6 +26,7 @@ public class CombatManager : MonoBehaviour {
     private SphereAttackManager sphereAttackManager;
     public CombatManagerState state = CombatManagerState.Idle;
     public HUD hud;
+    public VictoryScreen victoryScreen;
 
     private string _status;
     private GameObject root;
@@ -102,6 +103,10 @@ public class CombatManager : MonoBehaviour {
                 });
                 
                 break;
+
+            case CombatManagerState.BattleOver:
+                yield return BattleOverRoutine();
+                break;
         }
 
         yield return null;
@@ -149,12 +154,19 @@ public class CombatManager : MonoBehaviour {
         hud.ShowAttackModifier(evalIndex, damage, sphereAttackManager.attackLine.center);
 
         if(enemy.hp <= 0) {
+            StopAllCoroutines();
             sphereAttackManager.StopAttack();
             SetState(CombatManagerState.BattleOver);
-            enemyHolder.animator.enabled = false;
-            this.LerpRoutine(1, CoTween.SmoothStep, (t) => enemyHolder.alpha = 1-t);
-            GameManager.instance.EndCombat();
         }
+    }
+
+    private IEnumerator BattleOverRoutine() {
+        enemyHolder.animator.enabled = false;
+        MusicManager.instance.FadeInOutMusic(2, .25f, false);
+
+        yield return this.LerpRoutine(1, CoTween.SmoothStep, (t) => enemyHolder.alpha = 1 - t);
+        yield return victoryScreen.Show(enemy.data);
+        GameManager.instance.EndCombat();
     }
 
     private void OnEnemyAttackEvaluate() {

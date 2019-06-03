@@ -66,8 +66,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private IEnumerator EndCombatRoutine() {
-        MusicManager.instance.FadeInOutMusic(2);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(.5f);
         yield return fader.FadeIn();
         cam.enabled = true;
         cam.JumpToTarget();
@@ -78,7 +77,8 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds(.33f);
         yield return fader.FadeOut();
         player.controlling = true;
-        MusicManager.instance.FadeInOutMusic(0);
+
+        MusicManager.instance.FadeInMusic(0);
     }
 
     public void GameOver() {

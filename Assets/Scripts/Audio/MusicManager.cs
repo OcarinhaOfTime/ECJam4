@@ -16,7 +16,7 @@ public class MusicManager : MonoBehaviour {
     public TwoPartSong[] twoPartSongs;
     private AudioSource audioSource;
 
-    public void SetLoop(bool b) {
+    private void SetLoop(bool b) {
         audioSource.loop = b;
     }
 
@@ -30,15 +30,15 @@ public class MusicManager : MonoBehaviour {
         }
     }
 
-    public void FadeInOutMusic(int id, float duration = 1) {
-        StartCoroutine(FadeInOutMusicRoutine(id, duration));
+    public void FadeInOutMusic(int id, float duration = 1, bool loop = true) {
+        StartCoroutine(FadeInOutMusicRoutine(id, duration, loop));
     }
 
-    public IEnumerator FadeInOutMusicRoutine(int id, float duration) {
+    public IEnumerator FadeInOutMusicRoutine(int id, float duration, bool loop = true) {
         yield return this.LerpRoutine(duration * .5f, CoTween.SmoothStep, (t) => audioSource.volume = 1 - t);
         audioSource.Stop();
         audioSource.clip = clips[id];
-        audioSource.loop = true;
+        audioSource.loop = loop;
         audioSource.Play();
         yield return this.LerpRoutine(duration * .5f, CoTween.SmoothStep, (t) => audioSource.volume = t);
     }
@@ -53,6 +53,18 @@ public class MusicManager : MonoBehaviour {
         audioSource.clip = clips[id];
         audioSource.volume = 1;
         audioSource.Play();
+    }
+
+    public void FadeInMusic(int id, float duration = .25f) {
+        StartCoroutine(FadeInMusicRoutine(id, duration));
+    }
+
+    public IEnumerator FadeInMusicRoutine(int id, float duration) {
+        audioSource.Stop();
+        audioSource.clip = clips[id];
+        audioSource.loop = true;
+        audioSource.Play();
+        yield return this.LerpRoutine(duration, CoTween.SmoothStep, (t) => audioSource.volume = t);
     }
 
     public void Play2PartSong(int id, float duration = 1) {

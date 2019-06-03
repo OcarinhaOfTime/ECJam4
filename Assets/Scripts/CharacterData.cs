@@ -8,9 +8,10 @@ public class CharacterData : ScriptableObject {
     public int vitality = 10;
     public int strength = 3;
     public int intelligence = 3;
-    public int resistence = 3;
+    public int resistance = 3;
     public int agility = 3;
     public int skill = 3;
+    public int gold = 10;
     public int xp = 10;
     public int level = 1;
 
