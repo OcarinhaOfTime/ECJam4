@@ -120,40 +120,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!84 &20097541
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  serializedVersion: 3
-  m_Width: 1920
-  m_Height: 1080
-  m_AntiAliasing: 1
-  m_DepthFormat: 0
-  m_ColorFormat: 4
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 1
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 0
-    m_WrapV: 0
-    m_WrapW: 0
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &26242729
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,7 +930,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 807
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 20097541}
+  m_TargetTexture: {fileID: 1718997963}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -1029,6 +995,7 @@ Transform:
   m_Children:
   - {fileID: 1720261169}
   - {fileID: 205132134}
+  - {fileID: 1538215232}
   - {fileID: 1253173153}
   - {fileID: 657071611}
   - {fileID: 1879729771}
@@ -1036,7 +1003,6 @@ Transform:
   - {fileID: 1871647683}
   - {fileID: 153717116}
   - {fileID: 381556023}
-  - {fileID: 1538215232}
   - {fileID: 171344313}
   - {fileID: 1091797221}
   m_Father: {fileID: 609958059}
@@ -1558,7 +1524,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 96097882}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &153717117
 Animator:
@@ -1702,9 +1668,9 @@ GameObject:
   - component: {fileID: 171344313}
   - component: {fileID: 171344318}
   - component: {fileID: 171344317}
-  - component: {fileID: 171344316}
   - component: {fileID: 171344315}
   - component: {fileID: 171344314}
+  - component: {fileID: 171344316}
   m_Layer: 0
   m_Name: ghost_red (3)
   m_TagString: Untagged
@@ -1720,7 +1686,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 171344312}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 119.8, y: 3, z: 0}
+  m_LocalPosition: {x: 120.8, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 96097882}
@@ -1773,7 +1739,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 171344312}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a83cbbcd8753c045bb87a9a49e1abfa, type: 3}
+  m_Script: {fileID: 11500000, guid: eac90afc2a944644da52d4588b20aaf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 90dc6753fb7e5eb468d46e45f8041398, type: 2}
@@ -1783,6 +1749,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  speed: 3
+  range: 6
 --- !u!61 &171344317
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1868,9 +1836,9 @@ GameObject:
   - component: {fileID: 205132134}
   - component: {fileID: 205132133}
   - component: {fileID: 205132132}
-  - component: {fileID: 205132135}
   - component: {fileID: 205132136}
   - component: {fileID: 205132137}
+  - component: {fileID: 205132135}
   m_Layer: 0
   m_Name: ghost
   m_TagString: Untagged
@@ -1960,7 +1928,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 205132131}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 28.3, y: -2.27, z: 0}
+  m_LocalPosition: {x: 28.52, y: -2.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 96097882}
@@ -1975,7 +1943,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 205132131}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a83cbbcd8753c045bb87a9a49e1abfa, type: 3}
+  m_Script: {fileID: 11500000, guid: eac90afc2a944644da52d4588b20aaf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 434bd244ffa64324a84935963f255c49, type: 2}
@@ -1985,6 +1953,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  speed: 2
+  range: 3
 --- !u!114 &205132136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3822,9 +3792,9 @@ GameObject:
   - component: {fileID: 381556023}
   - component: {fileID: 381556028}
   - component: {fileID: 381556027}
-  - component: {fileID: 381556026}
   - component: {fileID: 381556025}
   - component: {fileID: 381556024}
+  - component: {fileID: 381556026}
   m_Layer: 0
   m_Name: spirit_red (1)
   m_TagString: Untagged
@@ -3840,11 +3810,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 381556022}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 98.25, y: 19.94, z: 0}
+  m_LocalPosition: {x: 99.2, y: 19.94, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 96097882}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &381556024
 Animator:
@@ -3893,7 +3863,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 381556022}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a83cbbcd8753c045bb87a9a49e1abfa, type: 3}
+  m_Script: {fileID: 11500000, guid: eac90afc2a944644da52d4588b20aaf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: d2e0bf38efa829b49824a6d1fbe545db, type: 2}
@@ -3903,6 +3873,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  speed: 2
+  range: 5
 --- !u!61 &381556027
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3967,7 +3939,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 23b72669781723b49b721de5b394c0d0, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5982,7 +5954,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 96097882}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &657071612
 Animator:
@@ -11397,9 +11369,9 @@ GameObject:
   - component: {fileID: 1091797221}
   - component: {fileID: 1091797226}
   - component: {fileID: 1091797225}
-  - component: {fileID: 1091797224}
   - component: {fileID: 1091797223}
   - component: {fileID: 1091797222}
+  - component: {fileID: 1091797224}
   m_Layer: 0
   m_Name: spirit_red (2)
   m_TagString: Untagged
@@ -11415,7 +11387,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091797220}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 81.2, y: 14.9, z: 0}
+  m_LocalPosition: {x: 81.5, y: 14.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 96097882}
@@ -11468,16 +11440,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1091797220}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a83cbbcd8753c045bb87a9a49e1abfa, type: 3}
+  m_Script: {fileID: 11500000, guid: eac90afc2a944644da52d4588b20aaf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: d2e0bf38efa829b49824a6d1fbe545db, type: 2}
+  data: {fileID: 11400000, guid: 15d47c253ebb27b4caca5e4d2c979eba, type: 2}
   hp: 10
   onChange:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  speed: 2
+  range: 5
 --- !u!61 &1091797225
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13274,9 +13248,9 @@ GameObject:
   - component: {fileID: 1253173153}
   - component: {fileID: 1253173158}
   - component: {fileID: 1253173157}
-  - component: {fileID: 1253173156}
   - component: {fileID: 1253173155}
   - component: {fileID: 1253173154}
+  - component: {fileID: 1253173156}
   m_Layer: 0
   m_Name: ghost_red
   m_TagString: Untagged
@@ -13292,11 +13266,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1253173152}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 25.87, y: 4.63, z: 0}
+  m_LocalPosition: {x: 25.71, y: 4.63, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 96097882}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1253173154
 Animator:
@@ -13345,7 +13319,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1253173152}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a83cbbcd8753c045bb87a9a49e1abfa, type: 3}
+  m_Script: {fileID: 11500000, guid: eac90afc2a944644da52d4588b20aaf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 90dc6753fb7e5eb468d46e45f8041398, type: 2}
@@ -13355,6 +13329,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  speed: 2
+  range: 4
 --- !u!61 &1253173157
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13712,6 +13688,11 @@ MonoBehaviour:
   content: {fileID: 1438518767}
   empty: {fileID: 1635871730}
   character: {fileID: 410704293}
+  onItemUsed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1293999314
 GameObject:
   m_ObjectHideFlags: 0
@@ -15123,6 +15104,11 @@ MonoBehaviour:
   content: {fileID: 863581290}
   empty: {fileID: 1634177349}
   character: {fileID: 410704293}
+  onItemUsed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &1423706098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15690,9 +15676,9 @@ GameObject:
   - component: {fileID: 1538215232}
   - component: {fileID: 1538215237}
   - component: {fileID: 1538215236}
-  - component: {fileID: 1538215235}
   - component: {fileID: 1538215234}
   - component: {fileID: 1538215233}
+  - component: {fileID: 1538215235}
   m_Layer: 0
   m_Name: ghost (2)
   m_TagString: Untagged
@@ -15708,11 +15694,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1538215231}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.88, y: 0.73, z: 0}
+  m_LocalPosition: {x: 8.23, y: 0.73, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 96097882}
-  m_RootOrder: 9
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1538215233
 Animator:
@@ -15761,7 +15747,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1538215231}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a83cbbcd8753c045bb87a9a49e1abfa, type: 3}
+  m_Script: {fileID: 11500000, guid: eac90afc2a944644da52d4588b20aaf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 434bd244ffa64324a84935963f255c49, type: 2}
@@ -15771,6 +15757,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  speed: 2
+  range: 3.5
 --- !u!61 &1538215236
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -17429,6 +17417,40 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!84 &1718997963
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  serializedVersion: 3
+  m_Width: 1920
+  m_Height: 1080
+  m_AntiAliasing: 1
+  m_DepthFormat: 0
+  m_ColorFormat: 4
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 1
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 0
+    m_WrapV: 0
+    m_WrapW: 0
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &1720261168
 GameObject:
   m_ObjectHideFlags: 0
@@ -17459,7 +17481,7 @@ Transform:
   m_GameObject: {fileID: 1720261168}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -4.34, y: -1.05, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 96097882}
   m_RootOrder: 0
@@ -17597,8 +17619,6 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   speed: 2
   range: 3
-  dal: {x: 0, y: 0, z: 0}
-  dar: {x: 0, y: 0, z: 0}
 --- !u!1 &1736179156
 GameObject:
   m_ObjectHideFlags: 0
@@ -19237,9 +19257,9 @@ GameObject:
   - component: {fileID: 1871647683}
   - component: {fileID: 1871647688}
   - component: {fileID: 1871647687}
-  - component: {fileID: 1871647686}
   - component: {fileID: 1871647685}
   - component: {fileID: 1871647684}
+  - component: {fileID: 1871647686}
   m_Layer: 0
   m_Name: spirit_black
   m_TagString: Untagged
@@ -19255,11 +19275,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1871647682}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 20.37, y: 12.82, z: 0}
+  m_LocalPosition: {x: 14.6, y: 12.82, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 96097882}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1871647684
 Animator:
@@ -19308,7 +19328,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1871647682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a83cbbcd8753c045bb87a9a49e1abfa, type: 3}
+  m_Script: {fileID: 11500000, guid: eac90afc2a944644da52d4588b20aaf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 3b9a73c688561ba47a5420aa3d046440, type: 2}
@@ -19318,6 +19338,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  speed: 4
+  range: 6
 --- !u!61 &1871647687
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -33631,11 +33653,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1879729770}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 90.9, y: -1.6, z: 0}
+  m_LocalPosition: {x: 94.6, y: -1.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 96097882}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1879729772
 Animator:
@@ -33758,7 +33780,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 23b72669781723b49b721de5b394c0d0, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -34412,9 +34434,9 @@ GameObject:
   - component: {fileID: 1941081385}
   - component: {fileID: 1941081390}
   - component: {fileID: 1941081389}
-  - component: {fileID: 1941081388}
   - component: {fileID: 1941081387}
   - component: {fileID: 1941081386}
+  - component: {fileID: 1941081388}
   m_Layer: 0
   m_Name: ghost (1)
   m_TagString: Untagged
@@ -34430,11 +34452,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1941081384}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 70.5, y: -1.98, z: 0}
+  m_LocalPosition: {x: 70.1, y: -1.98, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 96097882}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1941081386
 Animator:
@@ -34483,7 +34505,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1941081384}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a83cbbcd8753c045bb87a9a49e1abfa, type: 3}
+  m_Script: {fileID: 11500000, guid: eac90afc2a944644da52d4588b20aaf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 434bd244ffa64324a84935963f255c49, type: 2}
@@ -34493,6 +34515,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  speed: 2
+  range: 10
 --- !u!61 &1941081389
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -35839,7 +35863,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &7338280860942669986
 MonoBehaviour:
   m_ObjectHideFlags: 0

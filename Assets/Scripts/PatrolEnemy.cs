@@ -39,11 +39,8 @@ public class PatrolEnemy : Character {
         }
     }
 
-    public Vector3 dal, dar;
     private void Start() {
         origin = transform.position;
-        dal = left;
-        dar = right;
         GetComponent<EventTrigger>().onTriggerEnter.AddListener(OnTriggerEnter);
         var sr = GetComponent<SpriteRenderer>();
         sr.color = data.color;

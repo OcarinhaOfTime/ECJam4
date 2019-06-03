@@ -43,6 +43,7 @@ public class DataManager : MonoBehaviour {
         Debug.Log("Game loaded");
     }
 
+    [ContextMenu("ResetAll")]
     public void ResetAll() {
         if (SaveExists()) {
             FileUtils.Delete(path);

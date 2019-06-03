@@ -19,7 +19,6 @@ public class EventTrigger : MonoBehaviour {
     private void FixedUpdate() { 
         var overlaps = c2d.bounds.Intersects(player.bounds);
         if (overlaps && !inside) {
-            print("on trigger enter");
             //on enter
             inside = true;
             onTriggerEnter.Invoke();
@@ -31,7 +30,6 @@ public class EventTrigger : MonoBehaviour {
             //print("on trigger stay");
             //on stay
         } else if(inside) {
-            print("on trigger exit");
             //on exit
             inside = false;
         }
