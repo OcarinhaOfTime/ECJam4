@@ -181,10 +181,10 @@ public class CombatManager : MonoBehaviour {
 
         player.data.gold += enemy.data.gold;
         player.data.xp += enemy.data.xp;
-        var item = InventoryManager.instance.randomItem;
-        InventoryManager.instance.AddItem(item);
+        var item = DataManager.instance.inventoryManager.randomItem;
+        DataManager.instance.inventoryManager.AddItem(item);
 
-        yield return victoryScreen.Show(enemy.data.xp, InventoryManager.items[item], enemy.data.gold);
+        yield return victoryScreen.Show(enemy.data.xp, DataManager.instance.inventoryManager.items[item], enemy.data.gold);
         GameManager.instance.EndCombat();
     }
 

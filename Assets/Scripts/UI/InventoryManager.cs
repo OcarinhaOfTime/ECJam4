@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryManager : MonoBehaviour {
-    public static InventoryManager instance;
-    public Dictionary<int, int> itemsDict = new Dictionary<int, int>();
+[System.Serializable]
+[CreateAssetMenu(menuName = "Custom/InventoryManager")]
+public class InventoryManager : ScriptableObject {
+    [SerializeField]public Dictionary<int, int> itemsDict = new Dictionary<int, int>();
 
-    public static string[] items = { "Small Potion", "Potion", "Large Potion", "Elixir" };
-    public static string[] itemsDesc = {
+    public string[] items = { "Small Potion", "Potion", "Large Potion", "Elixir" };
+    public string[] itemsDesc = {
         "Heals 10 HP.",
         "Heals 25 HP.",
         "Heals 50 HP.",
         "Heals all HP."
     };
-
-    private void Awake() {
-        instance = this;
-    }
 
     public void UseItem(Character character, int itemID) {
         var itemKey = itemID;
@@ -50,10 +47,8 @@ public class InventoryManager : MonoBehaviour {
         var itemKey = itemID;
         if (itemsDict.ContainsKey(itemKey)) {
             itemsDict[itemKey]++;
-            print("incremented " + itemID);
         } else {
             itemsDict.Add(itemKey, 1);
-            print("added " + itemID);
         }
     }
 
@@ -68,7 +63,6 @@ public class InventoryManager : MonoBehaviour {
         for (int i = 0; i < 5; i++) {
             var r = randomItem;
             AddItem(r);
-            print("added " + items[r]);
         }        
     }
 }

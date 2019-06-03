@@ -14,6 +14,7 @@ public class ItemsMenu : MonoBehaviour {
     private List<UsableItem> items = new List<UsableItem>();
 
     private void Start() {
+        inventoryManager = DataManager.instance.inventoryManager;
         GetComponent<CanvasUI>().onAppear.AddListener(OnAppear);
     }
 
@@ -31,7 +32,7 @@ public class ItemsMenu : MonoBehaviour {
                 continue;
             var item = Instantiate(prefab);
             item.transform.SetParent(content, false);
-            item.UpdateValues(o.Key, InventoryManager.items[o.Key], inventoryManager.itemsDict[o.Key]);
+            item.UpdateValues(o.Key, inventoryManager.items[o.Key], inventoryManager.itemsDict[o.Key]);
             item.gameObject.SetActive(true);
             items.Add(item);
         }
@@ -43,13 +44,13 @@ public class ItemsMenu : MonoBehaviour {
 
 
     public void UseItem(int itemID) {
-        PopupCanvas.instance.ShowOptionPopup("Use " + InventoryManager.items[itemID] + "?", () => {
+        PopupCanvas.instance.ShowOptionPopup("Use " + inventoryManager.items[itemID] + "?", () => {
             inventoryManager.UseItem(character, itemID);
             OnAppear();
         }, () => { });
     }
 
     public void HoverItem(int itemID) {
-        description.text = InventoryManager.itemsDesc[itemID];
+        description.text = inventoryManager.itemsDesc[itemID];
     }
 }

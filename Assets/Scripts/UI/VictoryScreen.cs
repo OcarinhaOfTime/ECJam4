@@ -33,7 +33,7 @@ public class VictoryScreen : MonoBehaviour {
         canvas.SetActive(true);
 
         mahou.GetChild(2).GetComponent<TMPro.TMP_Text>().text = "" + xp;
-        item.GetChild(1).GetComponent<TMPro.TMP_Text>().text = earned_item + " x1";
+        item.GetChild(1).GetComponent<TMPro.TMP_Text>().text = earned_item;
         gold.GetChild(2).GetComponent<TMPro.TMP_Text>().text = "$" + g;
 
         yield return this.LerpRoutine(.33f, CoTween.SmoothStop2, (t) => panel.fillAmount = t);

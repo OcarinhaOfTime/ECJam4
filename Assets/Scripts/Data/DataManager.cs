@@ -8,8 +8,14 @@ public class DataManager : MonoBehaviour {
         public CharacterDataObject status;
         public Dictionary<string, int> itemsDict;
     }
+
+    public static DataManager instance;
     public CharacterData characterData;
     public InventoryManager inventoryManager;
+
+    private void Awake() {
+        instance = this;
+    }
 
     public void UpdateCharacterData(CharacterData enemy) {
 

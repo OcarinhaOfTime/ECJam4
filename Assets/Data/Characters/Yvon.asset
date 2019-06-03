@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Yvon
   vitality: 5
-  strength: 5
-  intelligence: 4
-  resistance: 4
+  strength: 3
+  intelligence: 3
+  resistance: 3
   agility: 3
   skill: 3
   luck: 3
-  gold: 50
-  xp: 120
-  level: 4
+  gold: 0
+  xp: 500
+  level: 0
   sprite: {fileID: 21300000, guid: dd1b417e76210464bb4ddb0db6938e73, type: 3}
   animator: {fileID: 9100000, guid: 36f7d90763630f14499e1c31380d233b, type: 2}
   color: {r: 1, g: 1, b: 1, a: 1}

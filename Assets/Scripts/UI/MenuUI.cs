@@ -12,6 +12,7 @@ public class MenuUI : MonoBehaviour {
             return _current_index;
         }
         set {
+            canvases[_current_index].Hide();
             canvases[_current_index].gameObject.SetActive(false);
             _current_index = (value + canvases.Length) % canvases.Length;
             canvases[_current_index].gameObject.SetActive(true);
