@@ -8,4 +8,8 @@ public static class CommoExtentions {
         c.a = a;
         return c;
     }
+
+    public static RectTransform GetRectTransform(this CanvasGroup cg) {
+        return cg.transform as RectTransform;
+    }
 }

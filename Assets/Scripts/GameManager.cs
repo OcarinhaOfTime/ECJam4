@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
     public PlayerController player;
     private Character playerCharacter;
     private Character enemy;
+    public EventTrigger creditsTrigger;
 
     private void Awake() {
         instance = this;        
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour {
 
     private void Start() {
         playerCharacter = player.GetComponent<Character>();
+        creditsTrigger.onTriggerEnter.AddListener(RollCredits);
     }
 
     public void StartCombat(Character enemy) {
@@ -86,5 +88,15 @@ public class GameManager : MonoBehaviour {
         fader.GameOverFade();
 
         this.ExecWhen(() => Input.anyKeyDown, () => { MusicManager.instance.FadeInOutMusic(0); SceneManager.LoadScene(0);});
+    }
+
+    public void RollCredits() {
+        StartCoroutine(RollCreditsRoutine());
+    }
+
+    private IEnumerator RollCreditsRoutine() {
+        player.controlling = false;
+        yield return fader.FadeBlackIn();
+        SceneManager.LoadScene(2);
     }
 }
