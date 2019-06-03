@@ -72,10 +72,10 @@ public class AsymptoticCamera : MonoBehaviour {
     }
 
     private void FollowGrounded() {
-        if(playerController.velocity.y < -25) {
-            cameraMode = CameraMode.FollowFall;
-            return;
-        }
+        //if(playerController.velocity.y < -25) {
+        //    //cameraMode = CameraMode.FollowFall;
+        //    return;
+        //}
         var targ = targPosGround;
 
         desiredPos.x = transform.position.x + (targ.x - transform.position.x) * xstiffness * Time.deltaTime;

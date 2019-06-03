@@ -12,13 +12,15 @@ public class GameManager : MonoBehaviour {
     public CombatManager combatManager;
     public GameObject mainScene;
     public AsymptoticCamera cam;
-    private PlayerController player;
+    public PlayerController player;
     private Character playerCharacter;
     private Character enemy;
 
     private void Awake() {
-        instance = this;
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        instance = this;        
+    }
+
+    private void Start() {
         playerCharacter = player.GetComponent<Character>();
     }
 

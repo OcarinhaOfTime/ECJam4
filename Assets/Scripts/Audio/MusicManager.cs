@@ -16,21 +16,18 @@ public class MusicManager : MonoBehaviour {
     public TwoPartSong[] twoPartSongs;
     private AudioSource audioSource;
 
-    public int idTest;
-    public float durationTest = .5f;
-
     public void SetLoop(bool b) {
         audioSource.loop = b;
     }
 
     private void Awake() {
-        instance = this;
-        audioSource = GetComponent<AudioSource>();
-    }
-
-    [ContextMenu("test")]
-    private void SwitchMusic() {
-        Play2PartSong(idTest, durationTest);
+        if(instance == null) {
+            DontDestroyOnLoad(this.gameObject);
+            instance = this;
+            audioSource = GetComponent<AudioSource>();
+        } else {
+            Destroy(gameObject);
+        }
     }
 
     public void FadeInOutMusic(int id, float duration = 1) {

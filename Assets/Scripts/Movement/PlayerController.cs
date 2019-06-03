@@ -90,6 +90,8 @@ public class PlayerController : MonoBehaviour {
     private float h_input;
     private float v_input;
 
+    private Animator animator;
+
     private float acceleration {
         get {
             return max_speed / timeReachMax;
@@ -134,6 +136,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Awake() {
+        animator = GetComponent<Animator>();
         facingRight = true;
         col = GetComponent<BoxCollider2D>();
         pivot = transform;
@@ -179,10 +182,15 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void Move() {
-        if (!controlling)
+        if (!controlling) {
+            animator.SetBool("walking", false);
+
             return;
+        }
         h_input = Input.GetAxisRaw("Horizontal");
         v_input = Input.GetAxisRaw("Vertical");
+
+        animator.SetBool("walking", h_input != 0);
 
         if (h_input == 0) {
             velocity.x -= desacceleration * lastDir * Time.fixedDeltaTime;

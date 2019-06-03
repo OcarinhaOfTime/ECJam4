@@ -14,6 +14,7 @@ public class EventTrigger : MonoBehaviour {
     private void Start() {
         c2d = GetComponent<Collider2D>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Collider2D>();
+        print(player.name);
     }
 
     private void FixedUpdate() { 
