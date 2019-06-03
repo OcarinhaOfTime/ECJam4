@@ -37,7 +37,8 @@ public class MenuUI : MonoBehaviour {
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+        if (Input.GetKeyDown(KeyCode.Escape) && !GameManager.instance.inCombat) {
+            GameManager.instance.inMenu = true;
             isActive = !isActive;
             root.SetActive(isActive);
             if (isActive) {
@@ -45,7 +46,8 @@ public class MenuUI : MonoBehaviour {
                 ChangeMenu(0);
             }
             else {
-                foreach(var c in canvases)
+                GameManager.instance.inMenu = false;
+                foreach (var c in canvases)
                     c.Hide();
 
                 _current_index = 0;

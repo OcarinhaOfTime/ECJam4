@@ -21,14 +21,18 @@ public class CombatManager : MonoBehaviour {
 
     public ScaleButton attack;
     public ScaleButton items;
-    public ScaleButton block;
+    public ScaleButton options;
 
     private SphereAttackManager sphereAttackManager;
     public CombatManagerState state = CombatManagerState.Idle;
     public HUD hud;
     public VictoryScreen victoryScreen;
+
     public CanvasUI itemsUI;
     public PointerClickHandler itemsUIClickHandler;
+
+    public CanvasUI systemUI;
+    public PointerClickHandler systemUIClickHandler;
 
     private string _status;
     private GameObject root;
@@ -62,10 +66,14 @@ public class CombatManager : MonoBehaviour {
         root = transform.GetChild(0).gameObject;
         sphereAttackManager = GetComponent<SphereAttackManager>();
         attack.onClick.AddListener(() => SetState(CombatManagerState.PlayerAttack));
+        evaluator = GetComponent<IntersectionEvaluator>();
+
         items.onClick.AddListener(itemsUI.Appear);
         itemsUIClickHandler.onClick.AddListener(itemsUI.Hide);
-        evaluator = GetComponent<IntersectionEvaluator>();
         itemsUI.GetComponent<ItemsMenu>().onItemUsed.AddListener(OnItemUsed);
+
+        options.onClick.AddListener(systemUI.Appear);
+        systemUIClickHandler.onClick.AddListener(systemUI.Hide);
     }
 
     private void OnItemUsed() {

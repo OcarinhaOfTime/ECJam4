@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour {
     private Character playerCharacter;
     private Character enemy;
     public EventTrigger creditsTrigger;
+    public bool inCombat;
+    public bool inMenu;
 
     private void Awake() {
         instance = this;        
@@ -27,6 +29,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void StartCombat(Character enemy) {
+        inCombat = true;
         this.enemy = enemy;
         player.controlling = false;
         StartCoroutine(StartCombatRoutine(enemy));
@@ -45,6 +48,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void StartBossCombat(Character enemy) {
+        inCombat = true;
         this.enemy = enemy;
         player.controlling = false;
         StartCoroutine(StartBossCombatRoutine(enemy));
@@ -64,6 +68,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void EndCombat() {
+        inCombat = false;
         StartCoroutine(EndCombatRoutine());
     }
 

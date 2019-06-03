@@ -58,7 +58,7 @@ public class PatrolEnemy : Character {
     }
 
     private void Update() {
-        if (!moving)
+        if (!moving || GameManager.instance.inMenu)
             return;
         if (((transform.position.x <= left.x) && !(facingRight)) || ((transform.position.x >= right.x) && (facingRight))) {
                 facingRight = !(facingRight);
