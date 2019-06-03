@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Events;
 using VUtils;
 
@@ -7,7 +8,6 @@ public class CombatManager : MonoBehaviour {
         Idle,
         PlayerAttack,
         EnemyAttack,
-        Evaluating,
         BattleOver
     }
 
@@ -24,18 +24,19 @@ public class CombatManager : MonoBehaviour {
     public ScaleButton block;
 
     private SphereAttackManager sphereAttackManager;
-    public float attackDuration = 5;
     public CombatManagerState state = CombatManagerState.Idle;
     public HUD hud;
 
-    private float timer = 0;
     private string _status;
     private GameObject root;
     private IntersectionEvaluator evaluator;
 
+    private float playerAttackTimer = 0;
+    private float playerAttackDuration = 1;
+
     public float timeLefetNorm {
         get {
-            return  1 - Mathf.Clamp01(timer / attackDuration);
+            return  Mathf.Clamp01(1 - playerAttackTimer / playerAttackDuration);
         }
     }
     public string status {
@@ -62,7 +63,6 @@ public class CombatManager : MonoBehaviour {
     }
 
     public void Setup(Character player, Character enemy) {
-        timer = 0;
         this.player = player;
         this.enemy = enemy;
         playerHolder.Setup(player.data);
@@ -81,35 +81,56 @@ public class CombatManager : MonoBehaviour {
         root.SetActive(false);
     }
 
-    private void Update() {
-        switch(state) {
-            case CombatManagerState.PlayerAttack:
-                PlayerAttack();
-                break;
-            case CombatManagerState.EnemyAttack:
-                EnemyAttack();
-                break;
-        }
-    }
-
     private void SetState(CombatManagerState state) {
         this.state = state;
+        StartCoroutine(SetStateRoutine());
+    }
+
+    private IEnumerator SetStateRoutine() {
         switch (state) {
             case CombatManagerState.PlayerAttack:
-                buttons.SetActive(false);
-                sphereAttackManager.ActivateAttack(OnPlayerAttackEvaluate);
-                status = "player turn";
+                yield return SetPlayerAttack();
                 break;
             case CombatManagerState.EnemyAttack:
-                buttons.SetActive(false);
-                sphereAttackManager.ActivateDefense(OnEnemyAttackEvaluate);
+                yield return SetEnemyAttack();
                 break;
 
             case CombatManagerState.Idle:
-                buttons.SetActive(true);
-                status = "idle";
+                yield return this.ExecWhen(() => !hud.showingModifiers, () => {
+                    buttons.SetActive(true);
+                    status = "idle";
+                });
+                
                 break;
         }
+
+        yield return null;
+    }
+
+    private IEnumerator SetPlayerAttack() {
+        buttons.SetActive(false);
+        yield return hud.ShowTurnInfo(player.data.characterName);
+        sphereAttackManager.ActivateAttack(OnPlayerAttackEvaluate);
+        status = "player turn";
+
+        print("player attacking");
+        playerAttackTimer = 0;
+        playerAttackDuration = player.data.agility * .5f;
+
+        yield return new WaitForSeconds(1 + player.data.agility * .5f);
+
+        sphereAttackManager.StopAttack();
+        print("player turn finished");
+        status = "Enemy turn";
+        yield return this.ExecWhen(() => !hud.showingModifiers, () => {
+            SetState(CombatManagerState.EnemyAttack);
+        });
+    }
+
+    private IEnumerator SetEnemyAttack() {
+        buttons.SetActive(false);
+        yield return hud.ShowTurnInfo(enemy.data.characterName);
+        sphereAttackManager.ActivateDefense(OnEnemyAttackEvaluate);
     }
 
     private void OnPlayerAttackEvaluate() {
@@ -159,25 +180,5 @@ public class CombatManager : MonoBehaviour {
 
         sphereAttackManager.StopDefense();
         SetState(CombatManagerState.Idle);
-    }
-
-    private void PlayerAttack() {
-        if(timer > attackDuration) {
-            sphereAttackManager.StopAttack();
-            print("player turn finished");
-            timer = 0;
-            status = "Enemy turn";
-            SetState(CombatManagerState.Evaluating);
-            this.ExecAfterSecs(2, () => {
-                SetState(CombatManagerState.EnemyAttack);
-            });
-            return;
-        }
-
-        timer += Time.deltaTime;
-    }
-
-    private void EnemyAttack() {
-        
     }
 }

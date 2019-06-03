@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: GhostBlack
   m_EditorClassIdentifier: 
   characterName: Black Ghost
-  vitality: 40
-  strength: 6
+  vitality: 5
+  strength: 5
   intelligence: 3
   resistence: 3
   agility: 3

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GhostRed
   m_EditorClassIdentifier: 
   characterName: Red Ghost
-  vitality: 25
+  vitality: 4
   strength: 5
   intelligence: 3
   resistence: 3

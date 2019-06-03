@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Void
   m_EditorClassIdentifier: 
   characterName: Void
-  vitality: 60
+  vitality: 10
   strength: 10
   intelligence: 12
   resistence: 12

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpiritRed
   m_EditorClassIdentifier: 
   characterName: Red Duality
-  vitality: 20
+  vitality: 3
   strength: 3
   intelligence: 3
   resistence: 3

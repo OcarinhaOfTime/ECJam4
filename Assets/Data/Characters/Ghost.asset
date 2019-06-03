@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ghost
   m_EditorClassIdentifier: 
   characterName: Ghost
-  vitality: 15
+  vitality: 3
   strength: 4
   intelligence: 3
   resistence: 3

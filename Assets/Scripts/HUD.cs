@@ -22,6 +22,9 @@ public class HUD : MonoBehaviour {
     public RectTransform impact;
     public TMP_Text damageTxt;
     public TMP_Text modifierTxt;
+    public TMP_Text turnInfo;
+
+    public bool showingModifiers = false;
 
     private void Start() {
         combatManager.onStatusChange.AddListener(UpdateValues);
@@ -29,6 +32,7 @@ public class HUD : MonoBehaviour {
     }
 
     public void Setup(Character player, Character enemy) {
+        turnInfo.color.SetAlpha(0);
         this.player = player;
         this.enemy = enemy;
         impact.localScale = modifierTxt.transform.localScale = Vector3.zero;
@@ -44,26 +48,46 @@ public class HUD : MonoBehaviour {
     }
 
     private void UpdateHP(Character c, TMP_Text txt) {
-        txt.text = c.hp + "/" + c.data.vitality;
+        txt.text = c.hp + "/" + c.max_hp;
     }
 
-    public void ShowAttackModifier(int evalIndex, int damage, Vector2 attackPosition) {
+    public Coroutine ShowAttackModifier(int evalIndex, int damage, Vector2 attackPosition) {
         damageTxt.text = "" + damage;
         modifierTxt.text = evaluator.atk_modifierLabels[evalIndex];
         impact.position = attackPosition;
-        modifierTxt.transform.position = impact.position + Vector3.up * 1.5f;
-        StartCoroutine(ShowModifiers());
+        modifierTxt.transform.position = impact.position + Vector3.up * 1f + Vector3.right * -.25f;
+        return StartCoroutine(ShowModifiers());
     }
 
-    public void ShowDefenceModifier(int evalIndex, int damage, Vector2 attackPosition) {
+    public Coroutine ShowDefenceModifier(int evalIndex, int damage, Vector2 attackPosition) {
         damageTxt.text = "" + damage;
         modifierTxt.text = evaluator.def_modifierLabels[evalIndex] + " block";
         impact.position = attackPosition;
-        modifierTxt.transform.position = impact.position + Vector3.up;
-        StartCoroutine(ShowModifiers());
+        modifierTxt.transform.position = impact.position + Vector3.up + Vector3.right * .25f;
+        return StartCoroutine(ShowModifiers());
+    }
+
+    public Coroutine ShowTurnInfo(string nam) {
+        turnInfo.text = nam + "\nAttacks";
+        return StartCoroutine(ShowTurnInfoRoutine());
+    }
+
+    private IEnumerator ShowTurnInfoRoutine() {
+        yield return this.LerpRoutine(.25f, CoTween.SmoothStep, (t) => {
+            turnInfo.color = turnInfo.color.SetAlpha(t);
+            turnInfo.rectTransform.anchoredPosition = Vector2.Lerp(Vector2.right * 300, Vector2.zero, t);
+        });
+
+        yield return new WaitForSeconds(1);
+
+        yield return this.LerpRoutine(.1f, CoTween.SmoothStep, (t) => {
+            turnInfo.color = turnInfo.color.SetAlpha(1-t);
+            turnInfo.rectTransform.anchoredPosition = Vector2.Lerp(Vector2.zero, Vector2.right * -300, t);
+        });
     }
 
     private IEnumerator ShowModifiers() {
+        showingModifiers = true;
         yield return this.LerpRoutine(.1f, CoTween.SmoothStep, (t) => {
             impact.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, t);
         });
@@ -77,6 +101,8 @@ public class HUD : MonoBehaviour {
         yield return this.LerpRoutine(.1f, CoTween.SmoothStep, (t) => {
             impact.localScale = modifierTxt.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, 1-t);
         });
+
+        showingModifiers = false;
     }
 
     private void Update() {

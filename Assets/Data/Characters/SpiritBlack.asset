@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SpiritBlack
   m_EditorClassIdentifier: 
   characterName: Black Duality
-  vitality: 30
-  strength: 5
+  vitality: 4
+  strength: 4
   intelligence: 3
   resistence: 3
   agility: 3

@@ -77,11 +77,12 @@ public class Intro : MonoBehaviour {
     }
 
     public void NewGame() {
-        SceneManager.LoadScene(1);
+        PopupCanvas.instance.ShowOptionPopup("Start new game?", () => SceneManager.LoadScene(1), () => { });
     }
 
     public void LoadGame() {
-        SceneManager.LoadScene(1);
+        //SceneManager.LoadScene(1);
+        PopupCanvas.instance.ShowNotificationPopup("No saved game.", () => { });
     }
 
     public void Credits() {

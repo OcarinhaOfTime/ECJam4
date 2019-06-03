@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spirit
   m_EditorClassIdentifier: 
   characterName: Duality
-  vitality: 10
+  vitality: 2
   strength: 2
   intelligence: 3
   resistence: 3
