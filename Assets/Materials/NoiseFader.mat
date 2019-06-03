@@ -24,5 +24,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+<<<<<<< HEAD
     - _Randomness: 1.6994117
+=======
+    - _Randomness: 5.852054
+>>>>>>> 87daa7e1866cfaac6215012a3c17578e2b289c19
     m_Colors: []

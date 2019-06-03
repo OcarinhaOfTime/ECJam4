@@ -85,6 +85,6 @@ public class GameManager : MonoBehaviour {
         MusicManager.instance.FadeInOutMusic(3);
         fader.GameOverFade();
 
-        this.ExecWhen(() => Input.anyKeyDown, () => SceneManager.LoadScene(0));
+        this.ExecWhen(() => Input.anyKeyDown, () => { MusicManager.instance.FadeInOutMusic(0); SceneManager.LoadScene(0);});
     }
 }
