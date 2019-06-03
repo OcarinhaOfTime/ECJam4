@@ -23,8 +23,10 @@ public class MenuUI : MonoBehaviour {
     private GameObject root;
 
     private bool isActive;
+    private PlayerController playerController;
 
     private void Start() {
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         root = transform.GetChild(0).gameObject;
         for (int i = 0; i < canvases.Length; i++) {
             canvases[i].gameObject.SetActive(false);
@@ -37,7 +39,17 @@ public class MenuUI : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape)) {
             isActive = !isActive;
             root.SetActive(isActive);
-            ChangeMenu(0);
+            if (isActive) {
+                playerController.controlling = false;
+                ChangeMenu(0);
+            }
+            else {
+                foreach(var c in canvases)
+                    c.Hide();
+
+                _current_index = 0;
+                playerController.controlling = true;
+            }
         }
     }
 

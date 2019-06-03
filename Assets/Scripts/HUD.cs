@@ -59,6 +59,14 @@ public class HUD : MonoBehaviour {
         return StartCoroutine(ShowModifiers());
     }
 
+    public Coroutine ShowAttackModifier2(string modif, int damage, Vector2 attackPosition) {
+        damageTxt.text = "" + damage;
+        modifierTxt.text = modif;
+        impact.position = attackPosition;
+        modifierTxt.transform.position = impact.position + Vector3.up * 1f + Vector3.right * -.25f;
+        return StartCoroutine(ShowModifiers());
+    }
+
     public Coroutine ShowDefenceModifier(int evalIndex, int damage, Vector2 attackPosition) {
         damageTxt.text = "" + damage;
         modifierTxt.text = evaluator.def_modifierLabels[evalIndex] + " block";

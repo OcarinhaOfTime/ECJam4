@@ -39,8 +39,11 @@ public class SphereAttackManager : MonoBehaviour {
         this.player = player;
         this.enemy = enemy;
 
-        attackSpheres.Create(attackSpheresColors);
-        defenceSpheres.Create(defenceSpheresColors);
+        var acolors = NumEx.Range(player.characterData.intelligence + 3, (int i) => attackSpheresColors[i % attackSpheresColors.Length]);
+        var dcolors = NumEx.Range(player.characterData.resistance, (int i) => Color.gray);
+
+        attackSpheres.Create(acolors);
+        defenceSpheres.Create(dcolors);
         enemyAttack.Clear();       
     }
 

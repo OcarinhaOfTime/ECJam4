@@ -122,7 +122,7 @@ public class CombatManager : MonoBehaviour {
         playerAttackTimer = 0;
         playerAttackDuration = player.data.agility * .5f;
 
-        yield return new WaitForSeconds(1 + player.data.agility * .5f);
+        yield return new WaitForSeconds(3 + player.data.agility * .33f);
 
         sphereAttackManager.StopAttack();
         print("player turn finished");
@@ -141,17 +141,30 @@ public class CombatManager : MonoBehaviour {
     private void OnPlayerAttackEvaluate() {
         if (!sphereAttackManager.attackConnect) {
             print("ATK MISSED");
+            hud.ShowAttackModifier2("Missed", 0, enemyHolder.transform.position);
             return;
         }
 
-        int evalIndex = evaluator.EvaluateAttack(sphereAttackManager.attackLine, enemyHolder.col.ToRectange());
-        int damage = Mathf.CeilToInt(player.data.strength * evaluator.atk_modifiers[evalIndex] + evalIndex);
+        if(Random.value * 100 <= player.data.luck) {
+            int damage = player.data.strength * 5;
 
-        print(evaluator.atk_modifierLabels[evalIndex] + " attack " + damage);
-        enemy.TakeDamage(damage);
-        status = "player attacked";
+            print("lucky attack " + damage);
+            enemy.TakeDamage(damage);
+            status = "player attacked";
 
-        hud.ShowAttackModifier(evalIndex, damage, sphereAttackManager.attackLine.center);
+            hud.ShowAttackModifier2("Lucky", damage, sphereAttackManager.attackLine.center);
+        } else {
+            int evalIndex = evaluator.EvaluateAttack(sphereAttackManager.attackLine, enemyHolder.col.ToRectange());
+            int damage = Mathf.CeilToInt(player.data.strength * evaluator.atk_modifiers[evalIndex] + evalIndex);
+
+            print(evaluator.atk_modifierLabels[evalIndex] + " attack " + damage);
+            enemy.TakeDamage(damage);
+            status = "player attacked";
+
+            hud.ShowAttackModifier(evalIndex, damage, sphereAttackManager.attackLine.center);
+        }
+
+        
 
         if(enemy.hp <= 0) {
             StopAllCoroutines();
@@ -165,7 +178,13 @@ public class CombatManager : MonoBehaviour {
         MusicManager.instance.FadeInOutMusic(2, .25f, false);
 
         yield return this.LerpRoutine(1, CoTween.SmoothStep, (t) => enemyHolder.alpha = 1 - t);
-        yield return victoryScreen.Show(enemy.data);
+
+        player.data.gold += enemy.data.gold;
+        player.data.xp += enemy.data.xp;
+        var item = InventoryManager.instance.randomItem;
+        InventoryManager.instance.AddItem(item);
+
+        yield return victoryScreen.Show(enemy.data.xp, InventoryManager.items[item], enemy.data.gold);
         GameManager.instance.EndCombat();
     }
 

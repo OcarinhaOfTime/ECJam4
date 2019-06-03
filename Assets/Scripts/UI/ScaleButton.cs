@@ -6,6 +6,7 @@ using VUtils;
 
 public class ScaleButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler {
     public UnityEvent onClick;
+    public UnityEvent onHover;
     private Vector3 originalSize;
 
     private void Start() {
@@ -21,6 +22,7 @@ public class ScaleButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
     public void OnPointerEnter(PointerEventData eventData) {
         transform.localScale = originalSize * 1.1f;
         SFXManager.instance.PlayClip(1);
+        onHover.Invoke();
     }
 
     public void OnPointerExit(PointerEventData eventData) {

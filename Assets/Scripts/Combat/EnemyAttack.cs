@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour {
     public float radius = 1;
-    [SerializeField] private SpriteRenderer sphere1;
-    [SerializeField] private SpriteRenderer sphere2;
-    [SerializeField] private CustomLine line;
+    public SpriteRenderer sphere1;
+    public SpriteRenderer sphere2;
+    public CustomLine line;
     public Color color = Color.red;
 
     private float rand {

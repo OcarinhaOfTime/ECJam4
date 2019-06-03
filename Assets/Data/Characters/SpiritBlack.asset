@@ -16,9 +16,11 @@ MonoBehaviour:
   vitality: 4
   strength: 4
   intelligence: 3
-  resistence: 3
+  resistance: 3
   agility: 3
   skill: 3
+  luck: 3
+  gold: 300
   xp: 10
   level: 1
   sprite: {fileID: 21300000, guid: 23b72669781723b49b721de5b394c0d0, type: 3}

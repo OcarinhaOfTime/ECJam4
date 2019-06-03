@@ -21,6 +21,10 @@ public class PopupCanvas : MonoBehaviour {
     public TMP_Text notificationPopupText;
     public GameObject notificationPopup;
 
+    public ImageButton longNotificationPopupButton;
+    public TMP_Text longNotificationPopupText;
+    public GameObject longNotificationPopup;
+
     public void ShowOptionPopup(string text, Action onYes, Action onNo) {
         optionPopupText.text = text;
 
@@ -43,5 +47,15 @@ public class PopupCanvas : MonoBehaviour {
         notificationPopupButton.onClick.AddListener(() => notificationPopup.SetActive(false));
 
         notificationPopup.SetActive(true);
+    }
+
+    public void ShowLongNotificationPopup(string text, Action onPress) {
+        longNotificationPopupText.text = text;
+
+        longNotificationPopupButton.onClick.RemoveAllListeners();
+        longNotificationPopupButton.onClick.AddListener(() => onPress());
+        longNotificationPopupButton.onClick.AddListener(() => longNotificationPopup.SetActive(false));
+
+        longNotificationPopup.SetActive(true);
     }
 }

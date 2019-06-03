@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using VUtils;
 
@@ -17,6 +18,8 @@ public class CanvasUI : MonoBehaviour {
 
     private MenuUI menuUI;
 
+    public UnityEvent onAppear;
+
     private void Awake() {
         menuUI = GetComponentInParent<MenuUI>();
         leftButton.onClick.AddListener(() => menuUI.ChangeMenu(-1));
@@ -30,10 +33,17 @@ public class CanvasUI : MonoBehaviour {
         }
     }
 
-    [ContextMenu("Appear")]
     public void Appear() {
+        onAppear.Invoke();
         canvas.SetActive(true);
         StartCoroutine(AppearRoutine());
+    }
+
+    public void Hide() {
+        foreach (var fill in fills) {
+            fill.fillAmount = 0;
+        }
+        canvas.SetActive(false);
     }
 
     public IEnumerator AppearRoutine() {

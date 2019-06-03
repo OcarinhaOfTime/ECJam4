@@ -22,19 +22,19 @@ public class VictoryScreen : MonoBehaviour {
         pch.onPointerDown.AddListener((e) => showing = false);
     }
 
-    public Coroutine Show(CharacterData characterData) {
-        return StartCoroutine(ShowRoutine(characterData));
+    public Coroutine Show(int xp, string earned_item, int g) {
+        return StartCoroutine(ShowRoutine(xp, earned_item, g));
     }
 
-    private IEnumerator ShowRoutine(CharacterData characterData) {
+    private IEnumerator ShowRoutine(int xp, string earned_item, int g) {
         showing = true;
         panel.fillAmount = 0;
         cg.alpha = 1;
         canvas.SetActive(true);
 
-        mahou.GetChild(2).GetComponent<TMPro.TMP_Text>().text = "" + characterData.xp;
-        item.GetChild(2).GetComponent<TMPro.TMP_Text>().text = "x1";
-        gold.GetChild(2).GetComponent<TMPro.TMP_Text>().text = "$" + characterData.gold;
+        mahou.GetChild(2).GetComponent<TMPro.TMP_Text>().text = "" + xp;
+        item.GetChild(1).GetComponent<TMPro.TMP_Text>().text = earned_item + " x1";
+        gold.GetChild(2).GetComponent<TMPro.TMP_Text>().text = "$" + g;
 
         yield return this.LerpRoutine(.33f, CoTween.SmoothStop2, (t) => panel.fillAmount = t);
 
