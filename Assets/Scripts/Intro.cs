@@ -11,6 +11,7 @@ public class Intro : MonoBehaviour {
     public Graphic title2;
     public Image menu;
     public Image credits;
+    public GameObject loadGameBlock;
 
     public PointerClickHandler newGameButton;
     public PointerClickHandler loadGameButton;
@@ -28,6 +29,7 @@ public class Intro : MonoBehaviour {
     }
 
     private IEnumerator Start() {
+        loadGameBlock.SetActive(!DataManager.instance.SaveExists());
         newGameButton.onClick.AddListener(NewGame);
         loadGameButton.onClick.AddListener(LoadGame);
         creditsButton.onClick.AddListener(Credits);
@@ -77,12 +79,19 @@ public class Intro : MonoBehaviour {
     }
 
     public void NewGame() {
-        PopupCanvas.instance.ShowOptionPopup("Start new game?", () => SceneManager.LoadScene(1), () => { });
+        PopupCanvas.instance.ShowOptionPopup("Start new game?", () => {
+            DataManager.instance.ResetAll();
+            SceneManager.LoadScene(1);
+        }, () => { });
     }
 
     public void LoadGame() {
-        //SceneManager.LoadScene(1);
-        PopupCanvas.instance.ShowNotificationPopup("No saved game.", () => { });
+        if (DataManager.instance.SaveExists()) {
+            DataManager.instance.Load();
+            SceneManager.LoadScene(1);
+        } else {
+            PopupCanvas.instance.ShowNotificationPopup("No saved game.", () => { });
+        }
     }
 
     public void Credits() {

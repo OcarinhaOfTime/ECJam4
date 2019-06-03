@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour {
 
     private IEnumerator EndCombatRoutine() {
         yield return new WaitForSeconds(.5f);
+        DataManager.instance.Save();
         yield return fader.FadeIn();
         cam.enabled = true;
         cam.JumpToTarget();
@@ -84,6 +85,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void GameOver() {
+        DataManager.instance.Save();
         MusicManager.instance.FadeInOutMusic(3);
         fader.GameOverFade();
 
@@ -91,6 +93,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void RollCredits() {
+        DataManager.instance.Save();
         StartCoroutine(RollCreditsRoutine());
     }
 
