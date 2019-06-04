@@ -60,6 +60,7 @@ public class SpheresManager : MonoBehaviour {
         }
 
         spheres.Clear();
+        customLine.width = 0;
     }
 
     public void SetAllActive(bool b) {
@@ -91,6 +92,7 @@ public class SpheresManager : MonoBehaviour {
     }
 
     private void SelectSphere(int i) {
+        SFXManager.instance.PlayClip(2);
         if (selectedPoints.Contains(i)) {
             spheres[i].moving = true;
             selectedPoints.Remove(i);
@@ -113,11 +115,12 @@ public class SpheresManager : MonoBehaviour {
         var i2 = selectedPoints[1];
         customLine.SetPositions(spheres[i1].transform.position, spheres[i2].transform.position);
         customLine.color = spheres[i1].color;
-        customLine.width = .25f;
+
+        this.LerpRoutine(.15f, CoTween.SmoothStep, (t) => customLine.width = t * .1f);
 
         var line = new CollisionUtility.Line(spheres[i1].transform.position, spheres[i2].transform.position);
 
-        this.ExecAfterSecs(1, () => {
+        this.ExecAfterSecs(1.5f, () => {
             spheres[i1].gameObject.SetActive(false);
             spheres[i2].gameObject.SetActive(false);
             customLine.width = 0f;

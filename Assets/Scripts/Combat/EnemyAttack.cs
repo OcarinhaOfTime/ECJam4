@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VUtils;
 
 public class EnemyAttack : MonoBehaviour {
     public float radius = 1;
@@ -35,11 +36,13 @@ public class EnemyAttack : MonoBehaviour {
 
     private IEnumerator ActivateRandomAttackRoutine(System.Action<CollisionUtility.Line> onEnd) {
         sphere1.gameObject.SetActive(true);
+        yield return this.LerpRoutine(.25f, CoTween.SmoothStep, (t) => sphere1.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, t));
         yield return new WaitForSeconds(.5f);
         sphere2.gameObject.SetActive(true);
+        yield return this.LerpRoutine(.25f, CoTween.SmoothStep, (t) => sphere2.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, t));
         yield return new WaitForSeconds(2f);
-        line.width = .2f;
-        yield return new WaitForSeconds(3f);
+        yield return this.LerpRoutine(.15f, CoTween.SmoothStep, (t) => line.width = .1f * t);
+        yield return new WaitForSeconds(2f);
 
         sphere1.gameObject.SetActive(false);
         sphere2.gameObject.SetActive(false);

@@ -35,6 +35,7 @@ public class CanvasUI : MonoBehaviour {
     }
 
     public void Appear() {
+        SFXManager.instance.PlayClip(5);
         onAppear.Invoke();
         canvas.SetActive(true);
         StartCoroutine(AppearRoutine());

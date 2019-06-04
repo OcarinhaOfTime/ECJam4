@@ -9,3 +9,4 @@ town-theme: https://opengameart.org/content/town-theme
 free-platformer-game-tileset: https://opengameart.org/content/free-platformer-game-tileset
 opp-jungle-tiles: https://opengameart.org/content/opp-jungle-tiles
 ice-electricity-magic: https://opengameart.org/content/ice-electricity-magic
+spell-sounds-starter-pack: https://opengameart.org/content/spell-sounds-starter-pack

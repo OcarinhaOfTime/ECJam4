@@ -76,6 +76,7 @@ public class HUD : MonoBehaviour {
     }
 
     public Coroutine ShowTurnInfo(string nam) {
+        SFXManager.instance.PlayClip(6);
         turnInfo.text = nam + "\nAttacks";
         return StartCoroutine(ShowTurnInfoRoutine());
     }

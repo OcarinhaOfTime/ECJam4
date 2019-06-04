@@ -18,6 +18,7 @@ Shader "VShaders/UI/EmissiveSprite"
 			#pragma fragment frag
 			
 			#include "UnityCG.cginc"
+			#include "../vutils.cginc"
 
 
 			struct appdata
